@@ -259,7 +259,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
 
     @objc
     private func aiAskTapped() {
-        navigationController?.pushViewController(AIConsultantChatViewController(), animated: true)
+        topPresenterForModal.presentAIConsultantChatFullScreen()
     }
 
     private func updatePremiumNavBarChrome() {

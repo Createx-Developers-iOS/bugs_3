@@ -36,6 +36,7 @@ final class OnboardingViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.semanticContentAttribute = .forceLeftToRight
         cv.backgroundColor = .appBackground
         cv.isPagingEnabled = true
         cv.isScrollEnabled = false

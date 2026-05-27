@@ -59,6 +59,8 @@ final class OnboardingIntroPageCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        semanticContentAttribute = .forceLeftToRight
+        contentView.semanticContentAttribute = .forceLeftToRight
         contentView.backgroundColor = .appBackground
 
         contentView.addSubview(heroImageView)

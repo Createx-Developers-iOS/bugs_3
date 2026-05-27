@@ -14,6 +14,8 @@ final class OnboardingPaywallCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        semanticContentAttribute = .forceLeftToRight
+        contentView.semanticContentAttribute = .forceLeftToRight
         contentView.backgroundColor = .appBackground
         paywallView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(paywallView)
