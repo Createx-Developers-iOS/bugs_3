@@ -68,11 +68,11 @@ final class ProfileSegmentedControl: UIControl {
     private func configureButton(_ b: UIButton, title: String) {
         b.translatesAutoresizingMaskIntoConstraints = false
         b.setTitle(title, for: .normal)
-        b.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         b.titleLabel?.adjustsFontForContentSizeCategory = true
         b.titleLabel?.lineBreakMode = .byTruncatingTail
         b.layer.cornerRadius = 20
-        b.clipsToBounds = true
+        b.clipsToBounds = false
     }
 
     @objc
@@ -91,5 +91,28 @@ final class ProfileSegmentedControl: UIControl {
         rightButton.backgroundColor = selectedIndex == 1 ? green : .white
         leftButton.setTitleColor(selectedIndex == 0 ? .white : .black, for: .normal)
         rightButton.setTitleColor(selectedIndex == 1 ? .white : .black, for: .normal)
+        applySelectionShadow(for: leftButton, isSelected: selectedIndex == 0)
+        applySelectionShadow(for: rightButton, isSelected: selectedIndex == 1)
+    }
+
+    private func applySelectionShadow(for button: UIButton, isSelected: Bool) {
+        guard isSelected else {
+            button.layer.shadowOpacity = 0
+            return
+        }
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.12
+        button.layer.shadowRadius = 8
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowPath = UIBezierPath(
+            roundedRect: button.bounds,
+            cornerRadius: button.layer.cornerRadius
+        ).cgPath
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        applySelectionShadow(for: leftButton, isSelected: selectedIndex == 0)
+        applySelectionShadow(for: rightButton, isSelected: selectedIndex == 1)
     }
 }

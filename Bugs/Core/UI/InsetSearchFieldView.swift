@@ -31,7 +31,11 @@ final class InsetSearchFieldView: UIView {
         super.init(frame: frame)
         backgroundColor = .white
         layer.cornerRadius = 22
-        clipsToBounds = true
+        clipsToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.08
+        layer.shadowRadius = 8
+        layer.shadowOffset = CGSize(width: 0, height: 3)
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(iconView)
@@ -55,6 +59,11 @@ final class InsetSearchFieldView: UIView {
 
     required init?(coder: NSCoder) {
         nil
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     }
 
     func setTextInputEnabled(_ enabled: Bool) {

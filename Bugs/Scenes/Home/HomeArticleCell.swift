@@ -22,7 +22,7 @@ final class HomeArticleCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.layer.cornerRadius = 12
+        iv.layer.cornerRadius = 28
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
