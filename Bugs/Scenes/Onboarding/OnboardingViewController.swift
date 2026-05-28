@@ -350,5 +350,12 @@ extension OnboardingViewController: UICollectionViewDataSource, UICollectionView
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {}
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard indexPath.item == 2 else { return }
+        let isTestimonialsCell = cell is OnboardingFeaturePageCollectionViewCell
+        NSLog(
+            "%@",
+            "[OnboardingAutoScroll] OnboardingVC willDisplay page=3 testimonialsCell=\(isTestimonialsCell) cvSize=\(collectionView.bounds.size)"
+        )
+    }
 }
