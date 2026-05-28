@@ -307,6 +307,8 @@ final class OnboardingViewController: UIViewController {
             EventsManager.shared.logEvent(.view_onboarding_1)
         case 1:
             EventsManager.shared.logEvent(.view_onboarding_2)
+        case 2:
+            EventsManager.shared.logEvent(.view_onboarding_3)
         case Self.paywallPageIndex:
             logOnboardingPaywallShownIfNeeded()
         default:

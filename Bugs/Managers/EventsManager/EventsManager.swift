@@ -67,6 +67,7 @@ final class EventsManager {
         case splash_show
         case view_onboarding_1
         case view_onboarding_2
+        case view_onboarding_3
         case view_onboarding_subscription
         case launch_paywall_view
         case paywall_inapp_displayed
