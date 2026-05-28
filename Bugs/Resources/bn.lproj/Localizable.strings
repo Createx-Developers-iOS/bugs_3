@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "অবিলম্বে কোনও বাগ শনাক্ত করুন";
+"onboarding.v2.page2.title" = "ব্যবহারকারীর পছন্দ";
+"onboarding.v2.page3.title" = "কীটপতঙ্গ সম্পর্কে সব জানুন";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "এটি কতটা সঠিক তা দেখে আমি হতবাক হয়েছি । সেকেন্ডের মধ্যে একটি বাগ সনাক্ত করা হয়েছে!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "হাইকিং করার সময় খুব সহায়ক । এখন আমি জানি কী এড়ানো উচিত";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "বাড়িতে একটি সম্ভাব্য বিপজ্জনক কীটপতঙ্গ সনাক্ত করতে আমাকে সাহায্য করেছে";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "সততার সাথে আমাকে অনেক সময় বাঁচিয়েছে । গুগলিংয়ের পরিবর্তে, আমি কেবল একটি ছবি তুলি এবং উত্তর পাই";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "বিস্তারিত চমকপ্রদ । পকেট বায়োলজিস্ট থাকার মতো মনে হচ্ছে ।";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "ব্যবহার করা সহজ এবং মজাদার । আমার বাচ্চারা এটা পছন্দ করে!";

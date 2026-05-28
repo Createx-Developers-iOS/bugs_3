@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identifiser eventuelle feil umiddelbart";
+"onboarding.v2.page2.title" = "Brukervalg";
+"onboarding.v2.page3.title" = "Lær alt om insekter";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Jeg ble sjokkert over hvor nøyaktig den er. Identifiserte en feil i løpet av sekunder!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Super nyttig når du vandrer. Nå vet jeg hva jeg skal unngå";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Hjalp meg med å identifisere et potensielt farlig insekt hjemme";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Ærlig talt sparte jeg mye tid. I stedet for å google, tar jeg bare et bilde og får svaret";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Detaljene er fantastiske. Føles som å ha en lommebiolog.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Enkel og morsom å bruke. Barna mine elsker det!";

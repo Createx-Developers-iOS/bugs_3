@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identifiera eventuella buggar omedelbart";
+"onboarding.v2.page2.title" = "Användarens val";
+"onboarding.v2.page3.title" = "Lär dig allt om insekter";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Jag blev chockad över hur exakt den är. Identifierade en bugg på några sekunder!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Superhjälpsam när du vandrar. Nu vet jag vad jag ska undvika";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Hjälpte mig att identifiera en potentiellt farlig insekt hemma";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Ärligt talat sparade jag mycket tid. Istället för att googla tar jag bara ett foto och får svaret";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Detaljerna är fantastiska. Känns som att ha en pocketbiolog.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Enkel och rolig att använda. Mina barn älskar det!";

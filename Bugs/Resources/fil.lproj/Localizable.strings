@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Tukuyin agad ang anumang bug";
+"onboarding.v2.page2.title" = "Pagpili ng gumagamit";
+"onboarding.v2.page3.title" = "Alamin ang lahat tungkol sa mga insekto";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Nagulat ako kung gaano ito katumpak. Nakatukoy ako ng bug sa loob ng ilang segundo!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Nakakatulong talaga kapag nagha-hiking. Ngayon alam ko na kung ano ang dapat iwasan.";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Nakatulong sa akin na matukoy ang isang potensyal na mapanganib na insekto sa bahay";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Sa totoo lang, nakatipid ako ng maraming oras. Sa halip na mag-google, kumukuha na lang ako ng litrato at nakuha ko ang sagot.";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Ang mga detalye ay kamangha-mangha. Parang may pocket biologist.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Simple at masayang gamitin. Gustung-gusto ito ng mga anak ko!";

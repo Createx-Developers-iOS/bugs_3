@@ -33,16 +33,16 @@ final class OnboardingViewController: UIViewController {
 
     private let introPages: [IntroPageModel] = [
         .init(
-            title: "Identify any bug instantly",
+            title: L10n.string("onboarding.v2.page1.title"),
             background: .lottie(name: "onb1")
         ),
         .init(
-            title: "User choice",
+            title: L10n.string("onboarding.v2.page3.title"),
             background: .lottie(name: "onb2")
         ),
         .init(
-            title: "Learn all about insects",
-            background: .customPreviewImage(assetName: "paywall_onboarding_preview")
+            title: L10n.string("onboarding.v2.page2.title"),
+            background: .testimonials(imageAssetName: "people")
         ),
     ]
 
@@ -79,6 +79,7 @@ final class OnboardingViewController: UIViewController {
         l.textColor = .appTextPrimary
         l.textAlignment = .center
         l.numberOfLines = 0
+        l.lineBreakMode = .byWordWrapping
         return l
     }()
 

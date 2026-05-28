@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "ระบุข้อบกพร่องใดๆได้ทันที";
+"onboarding.v2.page2.title" = "ตัวเลือกของผู้ใช้";
+"onboarding.v2.page3.title" = "เรียนรู้ทุกอย่างเกี่ยวกับแมลง";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "ผมตกใจว่ามันแม่นยำแค่ไหนระบุข้อบกพร่องได้ในไม่กี่วินาที!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "มีประโยชน์สุดๆเมื่อเดินป่าตอนนี้ฉันรู้แล้วว่าควรหลีกเลี่ยงอะไร";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "ช่วยฉันระบุแมลงที่อาจเป็นอันตรายที่บ้าน";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "บอกตามตรงช่วยฉันประหยัดเวลาได้มากแทนที่จะหาคำตอบจากกูเกิลฉันแค่ถ่ายรูปและได้คำตอบ";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "รายละเอียดน่าทึ่งมากรู้สึกเหมือนมีนักชีววิทยาพกพา";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "ใช้งานง่ายและสนุกลูกๆของฉันชอบมาก!";

@@ -12,7 +12,7 @@ final class OnboardingFeaturePageCollectionViewCell: UICollectionViewCell {
 
     enum BackgroundKind {
         case lottie(name: String)
-        case customPreviewImage(assetName: String)
+        case testimonials(imageAssetName: String)
     }
 
     private let animationView: LottieAnimationView = {
@@ -32,15 +32,52 @@ final class OnboardingFeaturePageCollectionViewCell: UICollectionViewCell {
         iv.isHidden = true
         return iv
     }()
+    private let testimonialsContainer: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.isHidden = true
+        return v
+    }()
+    private let topReviewsCollectionView = OnboardingReviewsCollectionFactory.makeCollectionView()
+    private let bottomReviewsCollectionView = OnboardingReviewsCollectionFactory.makeCollectionView()
+    private var imageAspectRatioConstraint: NSLayoutConstraint?
+    private var testimonialsTopConstraint: NSLayoutConstraint?
+    private var autoScrollDisplayLink: CADisplayLink?
+    private var topRowDirection: CGFloat = -1
+    private var bottomRowDirection: CGFloat = 1
+    private var didPrepareAutoScroll = false
+
+    private lazy var topReviews: [OnboardingReviewItem] = [
+        .init(name: L10n.string("onboarding.v2.review.michael.name"), text: L10n.string("onboarding.v2.review.michael.text"), avatarAssetName: "onb_review_avatar_michael"),
+        .init(name: L10n.string("onboarding.v2.review.jessica.name"), text: L10n.string("onboarding.v2.review.jessica.text"), avatarAssetName: "onb_review_avatar_jessica"),
+        .init(name: L10n.string("onboarding.v2.review.ryan.name"), text: L10n.string("onboarding.v2.review.ryan.text"), avatarAssetName: "onb_review_avatar_ryan"),
+    ]
+    private lazy var bottomReviews: [OnboardingReviewItem] = [
+        .init(name: L10n.string("onboarding.v2.review.olivia.name"), text: L10n.string("onboarding.v2.review.olivia.text"), avatarAssetName: "onb_review_avatar_olivia"),
+        .init(name: L10n.string("onboarding.v2.review.daniel.name"), text: L10n.string("onboarding.v2.review.daniel.text"), avatarAssetName: "onb_review_avatar_daniel"),
+        .init(name: L10n.string("onboarding.v2.review.amanda.name"), text: L10n.string("onboarding.v2.review.amanda.text"), avatarAssetName: "onb_review_avatar_amanda"),
+    ]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         semanticContentAttribute = .forceLeftToRight
+        clipsToBounds = false
         contentView.semanticContentAttribute = .forceLeftToRight
         contentView.backgroundColor = .appBackground
+        contentView.clipsToBounds = false
 
         contentView.addSubview(animationView)
         contentView.addSubview(imageView)
+        contentView.addSubview(testimonialsContainer)
+        testimonialsContainer.addSubview(topReviewsCollectionView)
+        testimonialsContainer.addSubview(bottomReviewsCollectionView)
+
+        topReviewsCollectionView.dataSource = self
+        bottomReviewsCollectionView.dataSource = self
+        topReviewsCollectionView.delegate = self
+        bottomReviewsCollectionView.delegate = self
+        topReviewsCollectionView.register(OnboardingReviewCardCell.self, forCellWithReuseIdentifier: OnboardingReviewCardCell.reuseIdentifier)
+        bottomReviewsCollectionView.register(OnboardingReviewCardCell.self, forCellWithReuseIdentifier: OnboardingReviewCardCell.reuseIdentifier)
 
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
@@ -53,8 +90,26 @@ final class OnboardingFeaturePageCollectionViewCell: UICollectionViewCell {
 
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 70),
-            imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -220),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+
+            testimonialsContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            testimonialsContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            testimonialsContainer.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
+        ])
+        testimonialsTopConstraint = testimonialsContainer.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -36)
+        testimonialsTopConstraint?.isActive = true
+
+        NSLayoutConstraint.activate([
+            topReviewsCollectionView.topAnchor.constraint(equalTo: testimonialsContainer.topAnchor),
+            topReviewsCollectionView.leadingAnchor.constraint(equalTo: testimonialsContainer.leadingAnchor),
+            topReviewsCollectionView.trailingAnchor.constraint(equalTo: testimonialsContainer.trailingAnchor),
+            topReviewsCollectionView.heightAnchor.constraint(equalToConstant: 127),
+
+            bottomReviewsCollectionView.topAnchor.constraint(equalTo: topReviewsCollectionView.bottomAnchor, constant: 12),
+            bottomReviewsCollectionView.leadingAnchor.constraint(equalTo: testimonialsContainer.leadingAnchor),
+            bottomReviewsCollectionView.trailingAnchor.constraint(equalTo: testimonialsContainer.trailingAnchor),
+            bottomReviewsCollectionView.heightAnchor.constraint(equalToConstant: 127),
+            bottomReviewsCollectionView.bottomAnchor.constraint(equalTo: testimonialsContainer.bottomAnchor),
         ])
     }
 
@@ -62,13 +117,22 @@ final class OnboardingFeaturePageCollectionViewCell: UICollectionViewCell {
         nil
     }
 
+    deinit {
+        stopAutoScroll()
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         animationView.stop()
         animationView.animation = nil
         imageView.image = nil
+        imageAspectRatioConstraint?.isActive = false
+        imageAspectRatioConstraint = nil
         imageView.isHidden = true
+        testimonialsContainer.isHidden = true
         animationView.isHidden = false
+        stopAutoScroll()
+        didPrepareAutoScroll = false
     }
 
     func configure(background: BackgroundKind) {
@@ -78,13 +142,311 @@ final class OnboardingFeaturePageCollectionViewCell: UICollectionViewCell {
             animationView.isHidden = false
             animationView.animation = LottieAnimation.named(name, bundle: .main)
             animationView.play()
-        case let .customPreviewImage(assetName):
+        case let .testimonials(assetName):
             animationView.stop()
             animationView.animation = nil
             animationView.isHidden = true
             imageView.isHidden = false
+            testimonialsContainer.isHidden = false
             imageView.image = UIImage(named: assetName)
+            imageAspectRatioConstraint?.isActive = false
+            if let image = imageView.image, image.size.width > 0 {
+                let ratio = image.size.height / image.size.width
+                let c = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: ratio)
+                c.isActive = true
+                imageAspectRatioConstraint = c
+            }
+            topReviewsCollectionView.reloadData()
+            bottomReviewsCollectionView.reloadData()
+            stopAutoScroll()
+            didPrepareAutoScroll = false
+            setNeedsLayout()
+            DispatchQueue.main.async { [weak self] in
+                self?.prepareAutoScrollIfPossible(forceReset: true)
+            }
         }
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window == nil {
+            stopAutoScroll()
+        } else {
+            prepareAutoScrollIfPossible()
+        }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        testimonialsTopConstraint?.constant = bounds.height < 700 ? -100 : -36
+        prepareAutoScrollIfPossible()
+    }
+
+    private func startAutoScrollIfNeeded() {
+        guard !testimonialsContainer.isHidden else { return }
+        guard window != nil else { return }
+        guard autoScrollDisplayLink == nil else { return }
+        let link = CADisplayLink(target: self, selector: #selector(handleAutoScrollTick(_:)))
+        link.add(to: .main, forMode: .common)
+        autoScrollDisplayLink = link
+    }
+
+    private func prepareAutoScrollIfPossible(forceReset: Bool = false) {
+        guard !testimonialsContainer.isHidden else { return }
+        guard topReviewsCollectionView.bounds.width > 0 || bottomReviewsCollectionView.bounds.width > 0 else { return }
+        topReviewsCollectionView.layoutIfNeeded()
+        bottomReviewsCollectionView.layoutIfNeeded()
+        if forceReset || !didPrepareAutoScroll {
+            resetAutoScrollStartPositions()
+            didPrepareAutoScroll = true
+        }
+        startAutoScrollIfNeeded()
+    }
+
+    private func stopAutoScroll() {
+        autoScrollDisplayLink?.invalidate()
+        autoScrollDisplayLink = nil
+        topRowDirection = -1
+        bottomRowDirection = 1
+    }
+
+    private func resetAutoScrollStartPositions() {
+        let topMax = max(0, topReviewsCollectionView.contentSize.width - topReviewsCollectionView.bounds.width)
+        topReviewsCollectionView.setContentOffset(CGPoint(x: topMax, y: 0), animated: false)
+        topRowDirection = -1
+
+        bottomReviewsCollectionView.setContentOffset(.zero, animated: false)
+        bottomRowDirection = 1
+    }
+
+    @objc
+    private func handleAutoScrollTick(_ link: CADisplayLink) {
+        guard !testimonialsContainer.isHidden else { return }
+        let dt = CGFloat(link.targetTimestamp - link.timestamp)
+        autoScroll(collectionView: topReviewsCollectionView, direction: &topRowDirection, dt: dt)
+        autoScroll(collectionView: bottomReviewsCollectionView, direction: &bottomRowDirection, dt: dt)
+    }
+
+    private func autoScroll(collectionView: UICollectionView, direction: inout CGFloat, dt: CGFloat) {
+        let maxOffsetX = max(0, collectionView.contentSize.width - collectionView.bounds.width)
+        guard maxOffsetX > 0 else { return }
+
+        let speed: CGFloat = 14
+        var nextX = collectionView.contentOffset.x + (direction * speed * dt)
+        if nextX <= 0 {
+            nextX = 0
+            direction = 1
+        } else if nextX >= maxOffsetX {
+            nextX = maxOffsetX
+            direction = -1
+        }
+        collectionView.setContentOffset(CGPoint(x: nextX, y: 0), animated: false)
+    }
+}
+
+extension OnboardingFeaturePageCollectionViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        collectionView === topReviewsCollectionView ? topReviews.count : bottomReviews.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: OnboardingReviewCardCell.reuseIdentifier,
+            for: indexPath
+        ) as? OnboardingReviewCardCell else {
+            return UICollectionViewCell()
+        }
+        let item = collectionView === topReviewsCollectionView ? topReviews[indexPath.item] : bottomReviews[indexPath.item]
+        cell.configure(with: item)
+        return cell
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        CGSize(width: 303, height: 127)
+    }
+}
+
+private struct OnboardingReviewItem {
+    let name: String
+    let text: String
+    let avatarAssetName: String
+}
+
+private enum OnboardingReviewsCollectionFactory {
+    static func makeCollectionView() -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 12
+        layout.minimumInteritemSpacing = 12
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.backgroundColor = .clear
+        cv.showsHorizontalScrollIndicator = false
+        cv.bounces = false
+        cv.clipsToBounds = false
+        return cv
+    }
+}
+
+private final class OnboardingReviewCardCell: UICollectionViewCell {
+    static let reuseIdentifier = "OnboardingReviewCardCell"
+    private static let baseReviewFontSize: CGFloat = 14
+    private static let minReviewFontSize: CGFloat = 8
+
+    private let cardView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .white
+        v.layer.cornerRadius = 23
+        v.clipsToBounds = true
+        return v
+    }()
+    private let avatarImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = 20
+        iv.backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
+        return iv
+    }()
+    private let nameLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.font = .systemFont(ofSize: 14, weight: .semibold)
+        l.textColor = UIColor(red: 82 / 255, green: 76 / 255, blue: 67 / 255, alpha: 1)
+        l.numberOfLines = 1
+        return l
+    }()
+    private let reviewLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.font = .systemFont(ofSize: baseReviewFontSize, weight: .regular)
+        l.textColor = UIColor(red: 82 / 255, green: 76 / 255, blue: 67 / 255, alpha: 1)
+        l.numberOfLines = 2
+        l.lineBreakMode = .byWordWrapping
+        return l
+    }()
+    private let starsImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "onb_review_stars")
+        return iv
+    }()
+    private var reviewRawText: String = ""
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        clipsToBounds = false
+        contentView.clipsToBounds = false
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOpacity = 0.08
+        contentView.layer.shadowRadius = 8
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        contentView.addSubview(cardView)
+        cardView.addSubview(avatarImageView)
+        cardView.addSubview(nameLabel)
+        cardView.addSubview(reviewLabel)
+        cardView.addSubview(starsImageView)
+
+        NSLayoutConstraint.activate([
+            cardView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            avatarImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            avatarImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 40),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 40),
+
+            nameLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
+            nameLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+
+            reviewLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            reviewLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
+            reviewLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            reviewLabel.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -12),
+
+            starsImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            starsImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 23),
+            starsImageView.widthAnchor.constraint(equalToConstant: 128),
+            starsImageView.heightAnchor.constraint(equalToConstant: 24),
+        ])
+    }
+
+    required init?(coder: NSCoder) {
+        nil
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.layer.shadowPath = UIBezierPath(
+            roundedRect: cardView.frame,
+            cornerRadius: cardView.layer.cornerRadius
+        ).cgPath
+        applyReviewTextFontFitting()
+    }
+
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let attrs = super.preferredLayoutAttributesFitting(layoutAttributes)
+        contentView.layoutIfNeeded()
+        applyReviewTextFontFitting()
+        return attrs
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        avatarImageView.image = nil
+        nameLabel.text = nil
+        reviewLabel.text = nil
+        reviewRawText = ""
+        reviewLabel.font = .systemFont(ofSize: Self.baseReviewFontSize, weight: .regular)
+    }
+
+    func configure(with item: OnboardingReviewItem) {
+        nameLabel.text = item.name
+        reviewRawText = item.text
+        reviewLabel.text = item.text
+        reviewLabel.font = .systemFont(ofSize: Self.baseReviewFontSize, weight: .regular)
+        avatarImageView.image = UIImage(named: item.avatarAssetName)
+        setNeedsLayout()
+        layoutIfNeeded()
+        applyReviewTextFontFitting()
+    }
+
+    private func applyReviewTextFontFitting() {
+        guard !reviewRawText.isEmpty else { return }
+        let width = reviewLabel.bounds.width
+        guard width > 1 else { return }
+
+        let maxHeight = CGFloat(2) * UIFont.systemFont(ofSize: Self.baseReviewFontSize, weight: .regular).lineHeight
+        var fontSize: CGFloat = Self.baseReviewFontSize
+        let minSize: CGFloat = Self.minReviewFontSize
+
+        while fontSize > minSize {
+            let testFont = UIFont.systemFont(ofSize: fontSize, weight: .regular)
+            let attrs: [NSAttributedString.Key: Any] = [.font: testFont]
+            let rect = (reviewRawText as NSString).boundingRect(
+                with: CGSize(width: width, height: .greatestFiniteMagnitude),
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
+                attributes: attrs,
+                context: nil
+            )
+            if ceil(rect.height) <= maxHeight {
+                reviewLabel.font = testFont
+                return
+            }
+            fontSize -= 0.5
+        }
+        reviewLabel.font = .systemFont(ofSize: minSize, weight: .regular)
     }
 }
 

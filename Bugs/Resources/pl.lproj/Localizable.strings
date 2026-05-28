@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Natychmiast zidentyfikuj każdy błąd";
+"onboarding.v2.page2.title" = "Wybór użytkownika:";
+"onboarding.v2.page3.title" = "Dowiedz się wszystkiego o owadach";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Byłem zszokowany jego dokładnością. Zidentyfikowaliśmy błąd w kilka sekund!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Niezwykle pomocne podczas wędrówek. Teraz wiem, czego unikać";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Pomogła mi zidentyfikować potencjalnie niebezpiecznego owada w domu";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Szczerze mówiąc, zaoszczędziłem dużo czasu. Zamiast googlować, po prostu robię zdjęcie i otrzymuję odpowiedź";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Szczegóły są niesamowite. Czuję się, jakbym miał kieszonkowego biologa.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Prosty i przyjemny w użyciu. Moje dzieci to uwielbiają!";

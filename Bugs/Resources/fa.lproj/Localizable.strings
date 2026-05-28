@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "فوراً هرگونه اشکال را شناسایی کنید";
+"onboarding.v2.page2.title" = "انتخاب کاربر";
+"onboarding.v2.page3.title" = "همه چیز را در مورد حشرات بیاموزید";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "از اینکه چقدر دقیق است شوکه شدم. در عرض چند ثانیه یک اشکال را شناسایی کرد!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "موقع کوهنوردی خیلی مفید بود. حالا می‌دونم از چی باید اجتناب کنم.";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "به من کمک کرد تا یک حشره بالقوه خطرناک را در خانه شناسایی کنم";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "راستش را بخواهید، کلی در وقتم صرفه‌جویی شد. به جای جستجو در گوگل، فقط عکس می‌گیرم و جواب را می‌گیرم.";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "جزئیات شگفت‌انگیز هستند. انگار یک زیست‌شناس جیبی دارید.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "ساده و سرگرم‌کننده برای استفاده. بچه‌های من عاشقش هستند!";

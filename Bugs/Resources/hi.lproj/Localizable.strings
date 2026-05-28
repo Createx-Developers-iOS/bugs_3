@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "किसी भी बग की तुरंत पहचान करें";
+"onboarding.v2.page2.title" = "यूज़र की पसंद";
+"onboarding.v2.page3.title" = "कीड़ों के बारे में सब कुछ जानें";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "मैं हैरान थी कि यह कितना सटीक है। सेकंड में एक बग की पहचान की!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "लंबी पैदल यात्रा करते समय बहुत मददगार। अब मुझे पता है कि किस चीज़ से बचना है";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "घर पर एक संभावित खतरनाक कीट की पहचान करने में मेरी मदद की";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "ईमानदारी से मुझे बहुत समय बचाया। गूगल करने के बजाय, मैं बस एक फ़ोटो लेता हूँ और जवाब पाता हूँ";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "विवरण कमाल के हैं। ऐसा लगता है कि आपके पास एक पॉकेट बायोलॉजिस्ट है।";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "इस्तेमाल करने में आसान और मज़ेदार। मेरे बच्चे इसे पसंद करते हैं!";

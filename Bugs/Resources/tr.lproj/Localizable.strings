@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Herhangi bir hatayı anında tespit edin";
+"onboarding.v2.page2.title" = "Kullanıcı Seçimi";
+"onboarding.v2.page3.title" = "Böcekler hakkında her şeyi öğrenin";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Ne kadar doğru olduğunu görünce şok oldum. Saniyeler içinde bir hata belirlendi!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Yürüyüş yaparken çok yardımcı olur. Artık neyden kaçınacağımı biliyorum";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Evde potansiyel olarak tehlikeli bir böceği tanımlamama yardımcı oldu";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Dürüst olmak gerekirse bana çok zaman kazandırdı. Google'da arama yapmak yerine, sadece bir fotoğraf çekiyorum ve cevabı alıyorum";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Detaylar inanılmaz. Bir cep biyoloğuna sahip olmak gibi hissettiriyor.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Kullanımı basit ve eğlencelidir. Çocuklarım buna bayılıyor!";
