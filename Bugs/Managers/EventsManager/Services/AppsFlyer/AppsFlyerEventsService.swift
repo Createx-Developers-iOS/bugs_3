@@ -38,6 +38,9 @@ final class AppsFlyerEventsService: NSObject, EventServiceProtocol, AppsFlyerLib
     func logPurchase(productId: String) {
         guard isConfigured else { return }
         AppsFlyerLib.shared().logEvent(AFEventPurchase, withValues: ["product_id": productId])
+        #if DEBUG
+        print("[AppsFlyer] AFEventPurchase productId=\(productId)")
+        #endif
     }
 
     func onConversionDataSuccess(_ conversionInfo: [AnyHashable: Any]) {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "c6667785104c485db2999b609f6fd6a4238b1e524e5745de048894b1d834b0df",
+  "originHash" : "17fc176932ac0e1646f630b0fc5e8fd999b25f02b05fc87427c3641373e76d72",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "03bc52384a8b59689461994ac7b9d29e456f2bac",
         "version" : "6.18.1"
+      }
+    },
+    {
+      "identity" : "facebook-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/facebook/facebook-ios-sdk",
+      "state" : {
+        "revision" : "c19607d535864533523d1f437c84035e5fb101cf",
+        "version" : "14.1.0"
       }
     },
     {
@@ -143,6 +152,15 @@
       "state" : {
         "revision" : "dc48356f830d40de5acc0e126a44257d0a1329b6",
         "version" : "5.0.0"
+      }
+    },
+    {
+      "identity" : "metrica-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yandexmobile/metrica-sdk-ios",
+      "state" : {
+        "revision" : "13d8b11181a33938ef42759d49466a621df5e7db",
+        "version" : "4.5.2"
       }
     },
     {

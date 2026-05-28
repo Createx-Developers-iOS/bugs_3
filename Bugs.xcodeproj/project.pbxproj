@@ -15,6 +15,8 @@
 		D9FB00032F90000100964BA9 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = D9FB00042F90000100964BA9 /* FirebaseCore */; };
 		D9FB00242F90000200964BA0 /* AppsFlyerLib-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = D9FB00232F90000200964BA0 /* AppsFlyerLib-Dynamic */; };
 		D9FB00252F90000200964BA0 /* SwiftyStoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = D9FB00222F90000200964BA0 /* SwiftyStoreKit */; };
+		D9FB00302F90000300964BA0 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = D9FB00312F90000300964BA0 /* FacebookCore */; };
+		D9FB00322F90000300964BA0 /* YandexMobileMetrica in Frameworks */ = {isa = PBXBuildFile; productRef = D9FB00332F90000300964BA0 /* YandexMobileMetrica */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 				D9FB00252F90000200964BA0 /* SwiftyStoreKit in Frameworks */,
 				D9FB00012F90000100964BA9 /* FirebaseAnalytics in Frameworks */,
 				D9FB00032F90000100964BA9 /* FirebaseCore in Frameworks */,
+				D9FB00302F90000300964BA0 /* FacebookCore in Frameworks */,
+				D9FB00322F90000300964BA0 /* YandexMobileMetrica in Frameworks */,
 				D876E37D2F88E7A800964BA9 /* Kingfisher in Frameworks */,
 				D8EE864E2F83B8D5008EB485 /* MessageKit in Frameworks */,
 				D8EE9CEA2F87994C008EB485 /* Lottie in Frameworks */,
@@ -105,6 +109,8 @@
 				D8EE9CE92F87994C008EB485 /* Lottie */,
 				D876E37C2F88E7A800964BA9 /* Kingfisher */,
 				D876E4742F8CDF3100964BA9 /* Starscream */,
+				D9FB00312F90000300964BA0 /* FacebookCore */,
+				D9FB00332F90000300964BA0 /* YandexMobileMetrica */,
 			);
 			productName = Bugs;
 			productReference = D85FEA0E2F7E92ED009BB95B /* Bugs.app */;
@@ -177,6 +183,8 @@
 				D8EE9CE82F87994C008EB485 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				D876E37B2F88E7A800964BA9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D876E4732F8CDF3100964BA9 /* XCRemoteSwiftPackageReference "Starscream" */,
+				D9FB00342F90000300964BA0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				D9FB00352F90000300964BA0 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D85FEA0F2F7E92ED009BB95B /* Products */;
@@ -233,7 +241,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kh.test.app.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -274,7 +282,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kh.test.app.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -492,6 +500,22 @@
 				minimumVersion = 6.17.0;
 			};
 		};
+		D9FB00342F90000300964BA0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.1.0;
+			};
+		};
+		D9FB00352F90000300964BA0 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yandexmobile/metrica-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -534,6 +558,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D9FB00212F90000200964BA0 /* XCRemoteSwiftPackageReference "AppsFlyerFramework-Dynamic" */;
 			productName = "AppsFlyerLib-Dynamic";
+		};
+		D9FB00312F90000300964BA0 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9FB00342F90000300964BA0 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		D9FB00332F90000300964BA0 /* YandexMobileMetrica */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9FB00352F90000300964BA0 /* XCRemoteSwiftPackageReference "metrica-sdk-ios" */;
+			productName = YandexMobileMetrica;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
