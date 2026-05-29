@@ -71,6 +71,7 @@
 				D85FEA102F7E92ED009BB95B /* Bugs */,
 				D85FEA0F2F7E92ED009BB95B /* Products */,
 			);
+			indentWidth = 5;
 			sourceTree = "<group>";
 		};
 		D85FEA0F2F7E92ED009BB95B /* Products */ = {
