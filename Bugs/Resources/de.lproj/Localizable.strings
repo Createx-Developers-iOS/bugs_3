@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identifizieren Sie jeden Fehler sofort";
+"onboarding.v2.page2.title" = "Benutzerauswahl";
+"onboarding.v2.page3.title" = "Erfahre alles über Insekten";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Ich war schockiert, wie genau es ist. Innerhalb von Sekunden wurde ein Fehler identifiziert!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Super hilfreich beim Wandern. Jetzt weiß ich, was ich vermeiden sollte";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Hat mir geholfen, ein potenziell gefährliches Insekt zu Hause zu identifizieren";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Ehrlich gesagt habe ich viel Zeit gespart. Anstatt zu googeln, mache ich einfach ein Foto und bekomme die Antwort";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Die Details sind erstaunlich. Fühlt sich an wie ein Taschenbiologe.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Einfach und spaßig zu bedienen. Meine Kinder lieben es!";

@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Миттєво ідентифікуйте будь-яку помилку";
+"onboarding.v2.page2.title" = "Вибір користувача";
+"onboarding.v2.page3.title" = "Дізнайтеся все про комах";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Я був шокований, наскільки він точний. Виявлено помилку за лічені секунди!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Дуже корисно під час піших прогулянок. Тепер я знаю, чого уникати";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Допомогла ідентифікувати потенційно небезпечну комаху вдома";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Чесно врятував мені багато часу. Замість того, щоб гуглити, я просто фотографую і отримую відповідь";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Подробиці дивовижні. Відчувається, що у вас є кишеньковий біолог.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Простий і цікавий у використанні. Моїм дітям це подобається!";

@@ -6,6 +6,12 @@
 import AVFoundation
 import UIKit
 
+private final class ScannerZoomSlider: UISlider {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        bounds.insetBy(dx: -10, dy: -14).contains(point)
+    }
+}
+
 /// Экран сканера: превью камеры, затемнение с вырезом, нижние кнопки. Вью не связываются друг с другом — только с корневым view / safe area.
 final class ScannerViewController: UIViewController {
 
@@ -56,6 +62,68 @@ final class ScannerViewController: UIViewController {
         return b
     }()
 
+    private let zoomContainer: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
+    private let zoomMinusButton: UIButton = {
+        let b = UIButton(type: .system)
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.setTitle("-", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 22, weight: .semibold)
+        b.tintColor = .white
+        return b
+    }()
+
+    private let zoomPlusButton: UIButton = {
+        let b = UIButton(type: .system)
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.setTitle("+", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 22, weight: .semibold)
+        b.tintColor = .white
+        return b
+    }()
+
+    private let zoomTrackView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.white.withAlphaComponent(0.35)
+        v.layer.cornerRadius = 3
+        return v
+    }()
+
+    private let zoomTrackFillView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = UIColor.white
+        v.layer.cornerRadius = 3
+        return v
+    }()
+
+    private let zoomThumbView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .white
+        v.layer.cornerRadius = 13
+        v.layer.borderWidth = 2
+        v.layer.borderColor = UIColor.appReadMore.cgColor
+        return v
+    }()
+
+    private let zoomSlider: ScannerZoomSlider = {
+        let s = ScannerZoomSlider()
+        s.translatesAutoresizingMaskIntoConstraints = false
+        s.minimumValue = 0
+        s.maximumValue = 1
+        s.value = 0
+        s.minimumTrackTintColor = .clear
+        s.maximumTrackTintColor = .clear
+        s.setThumbImage(UIImage(), for: .normal)
+        return s
+    }()
+
     private nonisolated(unsafe) let session = AVCaptureSession()
     private let sessionQueue = DispatchQueue(label: "bugs.scanner.capture")
     private var photoOutput: AVCapturePhotoOutput?
@@ -65,6 +133,9 @@ final class ScannerViewController: UIViewController {
     private var isSessionConfigured = false
     private var shouldRunSessionWhenReady = false
     private var noAccessIllustrationHeightConstraint: NSLayoutConstraint!
+    private var zoomTrackFillWidthConstraint: NSLayoutConstraint?
+    private var zoomThumbLeadingConstraint: NSLayoutConstraint?
+    private var cameraDevice: AVCaptureDevice?
 
     private let noAccessContainer: UIView = {
         let v = UIView()
@@ -127,6 +198,13 @@ final class ScannerViewController: UIViewController {
         view.addSubview(galleryButton)
         view.addSubview(shutterButton)
         view.addSubview(flashButton)
+        view.addSubview(zoomContainer)
+        zoomContainer.addSubview(zoomMinusButton)
+        zoomContainer.addSubview(zoomTrackView)
+        zoomContainer.addSubview(zoomTrackFillView)
+        zoomContainer.addSubview(zoomThumbView)
+        zoomContainer.addSubview(zoomSlider)
+        zoomContainer.addSubview(zoomPlusButton)
         view.addSubview(noAccessContainer)
         noAccessContainer.addSubview(noAccessIllustrationView)
         noAccessContainer.addSubview(noAccessTitleLabel)
@@ -179,6 +257,39 @@ final class ScannerViewController: UIViewController {
             flashButton.widthAnchor.constraint(equalToConstant: 56),
             flashButton.heightAnchor.constraint(equalToConstant: 56),
 
+            zoomContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            zoomContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            zoomContainer.bottomAnchor.constraint(equalTo: shutterButton.topAnchor, constant: -20),
+            zoomContainer.heightAnchor.constraint(equalToConstant: 44),
+
+            zoomMinusButton.leadingAnchor.constraint(equalTo: zoomContainer.leadingAnchor),
+            zoomMinusButton.centerYAnchor.constraint(equalTo: zoomContainer.centerYAnchor),
+            zoomMinusButton.widthAnchor.constraint(equalToConstant: 24),
+            zoomMinusButton.heightAnchor.constraint(equalToConstant: 24),
+
+            zoomPlusButton.trailingAnchor.constraint(equalTo: zoomContainer.trailingAnchor),
+            zoomPlusButton.centerYAnchor.constraint(equalTo: zoomContainer.centerYAnchor),
+            zoomPlusButton.widthAnchor.constraint(equalToConstant: 24),
+            zoomPlusButton.heightAnchor.constraint(equalToConstant: 24),
+
+            zoomTrackView.leadingAnchor.constraint(equalTo: zoomMinusButton.trailingAnchor, constant: 8),
+            zoomTrackView.trailingAnchor.constraint(equalTo: zoomPlusButton.leadingAnchor, constant: -8),
+            zoomTrackView.centerYAnchor.constraint(equalTo: zoomContainer.centerYAnchor),
+            zoomTrackView.heightAnchor.constraint(equalToConstant: 6),
+
+            zoomTrackFillView.leadingAnchor.constraint(equalTo: zoomTrackView.leadingAnchor),
+            zoomTrackFillView.topAnchor.constraint(equalTo: zoomTrackView.topAnchor),
+            zoomTrackFillView.bottomAnchor.constraint(equalTo: zoomTrackView.bottomAnchor),
+
+            zoomThumbView.centerYAnchor.constraint(equalTo: zoomTrackView.centerYAnchor),
+            zoomThumbView.widthAnchor.constraint(equalToConstant: 26),
+            zoomThumbView.heightAnchor.constraint(equalToConstant: 26),
+
+            zoomSlider.leadingAnchor.constraint(equalTo: zoomTrackView.leadingAnchor),
+            zoomSlider.trailingAnchor.constraint(equalTo: zoomTrackView.trailingAnchor),
+            zoomSlider.centerYAnchor.constraint(equalTo: zoomTrackView.centerYAnchor),
+            zoomSlider.heightAnchor.constraint(equalToConstant: 44),
+
             noAccessContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             noAccessContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             noAccessContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
@@ -216,9 +327,16 @@ final class ScannerViewController: UIViewController {
         galleryButton.addTarget(self, action: #selector(galleryTapped), for: .touchUpInside)
         shutterButton.addTarget(self, action: #selector(shutterTapped), for: .touchUpInside)
         flashButton.addTarget(self, action: #selector(flashTapped), for: .touchUpInside)
+        zoomMinusButton.addTarget(self, action: #selector(zoomMinusTapped), for: .touchUpInside)
+        zoomPlusButton.addTarget(self, action: #selector(zoomPlusTapped), for: .touchUpInside)
+        zoomSlider.addTarget(self, action: #selector(zoomSliderChanged), for: .valueChanged)
         openSettingsButton.addTarget(self, action: #selector(openSettingsTapped), for: .touchUpInside)
         noAccessBackgroundBlur.isHidden = true
         applyNoAccessLocalizedStrings()
+        zoomThumbLeadingConstraint = zoomThumbView.leadingAnchor.constraint(equalTo: zoomTrackView.leadingAnchor)
+        zoomThumbLeadingConstraint?.isActive = true
+        zoomTrackFillWidthConstraint = zoomTrackFillView.widthAnchor.constraint(equalToConstant: 0)
+        zoomTrackFillWidthConstraint?.isActive = true
 
         sessionQueue.async { [weak self] in
             self?.configureSession()
@@ -228,6 +346,7 @@ final class ScannerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         previewLayer.frame = previewBox.bounds
+        updateZoomThumbPosition()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -254,6 +373,7 @@ final class ScannerViewController: UIViewController {
         super.viewWillDisappear(animated)
         hideGalleryLoader()
         shouldRunSessionWhenReady = false
+        resetZoomUI()
         sessionQueue.async { [weak self] in
             guard let self else { return }
             if self.session.isRunning {
@@ -298,6 +418,7 @@ final class ScannerViewController: UIViewController {
             session.commitConfiguration()
             return
         }
+        cameraDevice = device
         session.addInput(input)
 
         let output = AVCapturePhotoOutput()
@@ -338,6 +459,7 @@ final class ScannerViewController: UIViewController {
         noAccessBackgroundBlur.isHidden = !isDenied
         dimOverlay.isHidden = isDenied
         dashBorder.isHidden = isDenied
+        zoomContainer.isHidden = isDenied
     }
 
     private func applyNoAccessLocalizedStrings() {
@@ -465,6 +587,55 @@ final class ScannerViewController: UIViewController {
     private func flashTapped() {
         isFlashOnForCapture.toggle()
         updateFlashButtonImage()
+    }
+
+    @objc
+    private func zoomSliderChanged() {
+        applyZoomValue(CGFloat(zoomSlider.value))
+    }
+
+    @objc
+    private func zoomMinusTapped() {
+        zoomSlider.value = max(0, zoomSlider.value - 0.1)
+        zoomSliderChanged()
+    }
+
+    @objc
+    private func zoomPlusTapped() {
+        zoomSlider.value = min(1, zoomSlider.value + 0.1)
+        zoomSliderChanged()
+    }
+
+    private func applyZoomValue(_ normalizedValue: CGFloat) {
+        updateZoomThumbPosition()
+        sessionQueue.async { [weak self] in
+            guard let self, let device = self.cameraDevice else { return }
+            let maxZoom = min(device.activeFormat.videoMaxZoomFactor, 6)
+            let targetZoom = 1 + (maxZoom - 1) * max(0, min(1, normalizedValue))
+            do {
+                try device.lockForConfiguration()
+                device.videoZoomFactor = max(1, min(targetZoom, maxZoom))
+                device.unlockForConfiguration()
+            } catch {
+                return
+            }
+        }
+    }
+
+    private func updateZoomThumbPosition() {
+        let trackWidth = zoomTrackView.bounds.width
+        guard trackWidth > 0 else { return }
+        let value = CGFloat(zoomSlider.value)
+        zoomTrackFillWidthConstraint?.constant = trackWidth * value
+        let thumbWidth: CGFloat = 26
+        let thumbX = max(0, min(trackWidth * value - thumbWidth / 2, trackWidth - thumbWidth))
+        zoomThumbLeadingConstraint?.constant = thumbX
+    }
+
+    private func resetZoomUI() {
+        zoomSlider.value = 0
+        updateZoomThumbPosition()
+        applyZoomValue(0)
     }
 
     @objc

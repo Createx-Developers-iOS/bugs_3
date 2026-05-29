@@ -159,6 +159,7 @@ final class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         applySubscriptionStatusForAppearance()
         updatePremiumNavBarChrome()
+        segmentControl.refreshSelectionShadows()
         navigationController?.setNavigationBarHidden(true, animated: animated)
         fetchCollectionFromAPI()
         if segmentControl.selectedIndex == 1 {
@@ -174,6 +175,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        segmentControl.refreshSelectionShadows()
         let w = collectionView.bounds.width
         guard w > 1 else { return }
         if abs(w - lastCollectionWidthForLayout) > 0.5 {
@@ -371,14 +373,14 @@ final class ProfileViewController: UIViewController {
             segmentControl.topAnchor.constraint(equalTo: navBarContainer.bottomAnchor, constant: 16),
             segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            segmentControl.heightAnchor.constraint(equalToConstant: 44),
+            segmentControl.heightAnchor.constraint(equalToConstant: 52),
 
-            collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 16),
+            collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 12),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
 
-            achievementsCollectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 16),
+            achievementsCollectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 12),
             achievementsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             achievementsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             achievementsCollectionView.bottomAnchor.constraint(equalTo: safe.bottomAnchor),

@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "تحديد أي خطأ على الفور";
+"onboarding.v2.page2.title" = "اختيار العميل";
+"onboarding.v2.page3.title" = "تعلم كل شيء عن الحشرات";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "لقد صدمت من مدى دقتها. تم التعرف على خطأ في ثوان!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "مفيدة للغاية عند المشي لمسافات طويلة. الآن أعرف ما يجب تجنبه";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "ساعدني في التعرف على حشرة يحتمل أن تكون خطرة في المنزل";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "بصراحة وفرت علي الكثير من الوقت. بدلاً من البحث في جوجل، أقوم فقط بالتقاط صورة والحصول على الإجابة";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "التفاصيل مذهلة. أشعر وكأنني أمتلك عالمة أحياء جيب.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "بسيطة وممتعة للاستخدام. أطفالي يحبون ذلك!";

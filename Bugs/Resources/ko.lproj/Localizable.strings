@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "즉시 버그를 식별합니다.";
+"onboarding.v2.page2.title" = "사용자 선택:";
+"onboarding.v2.page3.title" = "곤충에 대해 자세히 알아보기";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "얼마나 정확한지 깜짝 놀랐습니다. 몇 초 만에 버그를 식별했습니다!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "하이킹할 때 매우 도움이 됩니다. 이제 피해야 할 사항이 무엇인지 알았습니다.";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "집에서 위험할 수 있는 곤충을 식별하는 데 도움이 되었습니다.";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "솔직히 많은 시간을 절약할 수 있었습니다. 구글링 대신 사진만 찍으면 답이 나온다.";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "디테일이 정말 멋집니다. 주머니 생물학자가 있는 것 같은 느낌이 듭니다.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "간단하고 재미있게 사용할 수 있습니다. 우리 아이들이 정말 좋아해요!";

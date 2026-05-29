@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identificați imediat orice eroare";
+"onboarding.v2.page2.title" = "Alegere utilizator";
+"onboarding.v2.page3.title" = "Află totul despre insecte";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Am fost șocat cât de precis este. Am identificat o eroare în câteva secunde!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Foarte util în drumeții. Acum știu ce să evit";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "M-a ajutat să identific o insectă potențial periculoasă acasă";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Sincer, am economisit mult timp. În loc să caut pe Google, fac doar o fotografie și primesc răspunsul";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Detaliile sunt uimitoare. E ca și cum ai avea un biolog de buzunar.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Simplu și distractiv de utilizat. Copiilor mei le place la nebunie!";

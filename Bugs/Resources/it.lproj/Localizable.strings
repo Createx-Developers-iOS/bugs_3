@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identifica immediatamente qualsiasi bug";
+"onboarding.v2.page2.title" = "Scelta utente";
+"onboarding.v2.page3.title" = "Scopri tutto sugli insetti";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Sono rimasta scioccata da quanto sia accurato. Identificato un bug in pochi secondi!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Super utile durante le escursioni. Ora so cosa evitare";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Mi ha aiutato a identificare un insetto potenzialmente pericoloso a casa";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Onestamente mi ha fatto risparmiare un sacco di tempo. Invece di cercare su Google, scatto una foto e ottengo la risposta";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "I dettagli sono sorprendenti. Sembra di avere un biologo tascabile.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Semplice e divertente da usare. I miei bambini lo adorano!";

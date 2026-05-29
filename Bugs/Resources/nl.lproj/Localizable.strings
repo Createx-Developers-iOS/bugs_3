@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identificeer bugs onmiddellijk";
+"onboarding.v2.page2.title" = "Gebruikerskeuze";
+"onboarding.v2.page3.title" = "Leer alles over insecten";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Ik was geschokt hoe nauwkeurig het is. Identificeerde een bug in seconden!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Super handig tijdens het wandelen. Nu weet ik wat ik moet vermijden";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Heeft me geholpen een potentieel gevaarlijk insect thuis te identificeren";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Eerlijk gezegd heeft het me veel tijd bespaard. In plaats van te googlen, maak ik gewoon een foto en krijg ik het antwoord";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "De details zijn geweldig. Het voelt alsof je een zakbioloog hebt.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Eenvoudig en leuk in gebruik. Mijn kinderen vinden het geweldig!";

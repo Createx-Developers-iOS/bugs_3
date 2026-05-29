@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "立即識別任何錯誤";
+"onboarding.v2.page2.title" = "用戶選擇";
+"onboarding.v2.page3.title" = "了解有關昆蟲的所有資訊";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "我很驚訝它的準確性。在幾秒鐘內發現了一個錯誤！";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "徒步旅行時非常有用。現在我知道該避免什麼了";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "幫助我在家中識別潛在的危險昆蟲";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "老實說，為我節省了很多時間。我不用谷歌搜索，我只是拍照並得到答案";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "細節令人驚嘆。感覺就像有個口袋生物學家";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "使用簡單有趣。我的孩子們很喜歡！";

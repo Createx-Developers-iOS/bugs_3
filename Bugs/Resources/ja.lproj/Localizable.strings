@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "バグを瞬時に特定";
+"onboarding.v2.page2.title" = "ユーザーの選択：";
+"onboarding.v2.page3.title" = "昆虫について学ぼう";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "私はそれがどれほど正確であるかにショックを受けました。数秒でバグを特定しました！";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "ハイキングするときにとても役に立ちます。これで避けるべきことがわかりました";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "自宅で潜在的に危険な昆虫を特定するのに役立った";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "本当に時間の節約になりました。Googleで検索する代わりに、写真を撮って答えを得るだけです";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "ディテールがすごい。ポケット生物学者がいるような気がします。";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "シンプルで楽しい使い方。私の子供たちは大好きです！";

@@ -264,44 +264,12 @@ final class MainTabBarController: UIViewController {
         tabBarContainer.isUserInteractionEnabled = !hidden
     }
 
-    private func presenterForChatModal() -> UIViewController {
-        guard let nav = visibleNavigation else { return self }
-        return topPresenterForModal(from: nav.visibleViewController ?? nav)
-    }
-
-    private func topPresenterForModal(from vc: UIViewController) -> UIViewController {
-        guard let presented = vc.presentedViewController else { return vc }
-        if let pNav = presented as? UINavigationController {
-            return topPresenterForModal(from: pNav.visibleViewController ?? pNav)
-        }
-        return topPresenterForModal(from: presented)
-    }
-
-    private func isAIChatModalPresented() -> Bool {
-        guard let nav = visibleNavigation else { return false }
-        var walker: UIViewController? = nav.visibleViewController ?? nav
-        while let w = walker {
-            if let presented = w.presentedViewController {
-                if let pNav = presented as? UINavigationController,
-                   pNav.viewControllers.first is AIConsultantChatViewController {
-                    return true
-                }
-                walker = presented
-            } else {
-                break
-            }
-        }
-        return false
-    }
-
     private func presentChatModallyFromCurrentScreen() {
-        guard !isAIChatModalPresented() else { return }
-        let chat = AIConsultantChatViewController()
-        chat.presentsAsModalFromTabBar = true
-        let nav = UINavigationController(rootViewController: chat)
-        AppNavigationBarAppearance.apply(to: nav.navigationBar)
-        nav.modalPresentationStyle = .fullScreen
-        presenterForChatModal().present(nav, animated: true)
+        guard let nav = visibleNavigation else {
+            presentAIConsultantChatFullScreen()
+            return
+        }
+        (nav.visibleViewController ?? nav).topPresenterForModal.presentAIConsultantChatFullScreen()
     }
 
     private func requestPushPermissionIfNeeded() {

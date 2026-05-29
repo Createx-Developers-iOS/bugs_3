@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Tambua hitilafu yoyote papo hapo";
+"onboarding.v2.page2.title" = "Chaguo la mtumiaji";
+"onboarding.v2.page3.title" = "Jifunze yote kuhusu wadudu";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Nilishtuka jinsi ilivyo sahihi. Imetambua hitilafu kwa sekunde!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Inasaidia sana wakati wa matembezi. Sasa najua nini cha kuepuka";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Alinisaidia kutambua mdudu hatari nyumbani";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Kwa kweli niliniokoa muda mwingi. Badala ya kupiga google, ninapiga picha tu na kupata jibu";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Maelezo ni ya kushangaza. Anahisi kama kuwa na mwanabiolojia wa mfukoni.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Rahisi na ya kufurahisha kutumia. Watoto wangu wanaipenda!";

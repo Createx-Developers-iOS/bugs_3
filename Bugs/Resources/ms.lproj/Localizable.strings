@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Kenal pasti sebarang pepijat serta-merta";
+"onboarding.v2.page2.title" = "Pilihan pengguna";
+"onboarding.v2.page3.title" = "Ketahui semua tentang serangga";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Saya terkejut betapa tepat ia. Kenal pasti pepijat dalam beberapa saat!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Sangat membantu semasa mendaki. Sekarang saya tahu apa yang perlu dielakkan";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Membantu saya mengenal pasti serangga yang berpotensi berbahaya di rumah";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Secara jujur menjimatkan banyak masa saya. Daripada mencari di Google, saya hanya mengambil gambar dan mendapatkan jawapannya";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Butirannya menakjubkan. Terasa seperti mempunyai ahli biologi poket.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Mudah dan menyeronokkan untuk digunakan. Anak-anak saya sukakannya!";

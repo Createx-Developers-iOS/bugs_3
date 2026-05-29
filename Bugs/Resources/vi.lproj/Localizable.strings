@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Xác định bất kỳ lỗi nào ngay lập tức";
+"onboarding.v2.page2.title" = "Lựa chọn của người dùng";
+"onboarding.v2.page3.title" = "Tìm hiểu tất cả về côn trùng";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Tôi đã bị sốc vì độ chính xác của nó. Xác định một lỗi trong vài giây!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Cực kỳ hữu ích khi đi bộ đường dài. Bây giờ tôi biết những gì cần tránh";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Giúp tôi xác định một loài côn trùng nguy hiểm tiềm tàng ở nhà";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Thành thật mà nói đã giúp tôi tiết kiệm rất nhiều thời gian. Thay vì google, tôi chỉ chụp ảnh và nhận được câu trả lời";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Các chi tiết thật tuyệt vời. Cảm giác như có một nhà sinh vật học bỏ túi.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Sử dụng đơn giản và thú vị. Các con tôi rất thích!";

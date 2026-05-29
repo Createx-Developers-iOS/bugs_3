@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "فوری طور پر کسی بھی مسئلے کی شناخت کریں";
+"onboarding.v2.page2.title" = "صارف کا انتخاب";
+"onboarding.v2.page3.title" = "کیڑوں کے بارے میں سب کچھ جانیں";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "میں حیران رہ گیا کہ یہ کتنا درست ہے ۔ سیکنڈوں میں ایک مسئلے کی نشاندہی کی!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "پیدل سفر کرتے وقت انتہائی مددگار ۔ اب میں جانتا ہوں کہ کس چیز سے بچنا ہے";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "گھر میں ممکنہ طور پر خطرناک کیڑے کی نشاندہی کرنے میں میری مدد کی";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "ایمانداری سے مجھے بہت وقت بچایا ۔ گوگل کرنے کے بجائے، میں صرف ایک تصویر کھینچتا ہوں اور جواب حاصل کرتا ہوں";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "تفصیلات حیرت انگیز ہیں ۔ جیب بائیولوجسٹ ہونے کی طرح محسوس ہوتا ہے ۔";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "استعمال میں آسان اور تفریحی ۔ میرے بچوں کو یہ بہت پسند ہے!";

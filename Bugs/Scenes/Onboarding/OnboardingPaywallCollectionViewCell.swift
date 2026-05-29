@@ -14,6 +14,8 @@ final class OnboardingPaywallCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        semanticContentAttribute = .forceLeftToRight
+        contentView.semanticContentAttribute = .forceLeftToRight
         contentView.backgroundColor = .appBackground
         paywallView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(paywallView)
@@ -27,6 +29,15 @@ final class OnboardingPaywallCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         nil
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        paywallView.cancelScheduledOnboardingPaywallPlayback()
+    }
+
+    func schedulePaywallPlayback(after delay: TimeInterval = 0.1) {
+        paywallView.scheduleOnboardingPaywallPlayback(after: delay)
     }
 
     func configure(

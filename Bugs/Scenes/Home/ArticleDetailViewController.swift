@@ -14,9 +14,10 @@ final class ArticleDetailViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let s = UIScrollView()
         s.translatesAutoresizingMaskIntoConstraints = false
-        s.alwaysBounceVertical = true
+        s.alwaysBounceVertical = false
+        s.bounces = false
         s.showsVerticalScrollIndicator = true
-        s.contentInsetAdjustmentBehavior = .automatic
+        s.contentInsetAdjustmentBehavior = .never
         return s
     }()
 
@@ -32,6 +33,19 @@ final class ArticleDetailViewController: UIViewController {
     private let contentLoadingOverlay = ContentLoadingOverlayView()
 
     private var articleFetchTask: Task<Void, Never>?
+    private var navBarTitleText: String = ""
+    private var hasVisibleNavBarChrome = true
+    private lazy var transparentNavBarAppearance: UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.clear,
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
+        ]
+        return appearance
+    }()
 
     /// - Parameters:
     ///   - articleId: Идентификатор для `GET articles/insects/{id}/`; если `nil`, остаётся превью со списка.
@@ -65,11 +79,12 @@ final class ArticleDetailViewController: UIViewController {
         configureBackButton()
 
         view.addSubview(scrollView)
+        scrollView.delegate = self
         scrollView.addSubview(contentStack)
         view.addSubview(contentLoadingOverlay)
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -105,7 +120,8 @@ final class ArticleDetailViewController: UIViewController {
     }
 
     private func applyViewModel(_ viewModel: Home.ArticleDetailViewModel) {
-        navigationItem.title = viewModel.title
+        navBarTitleText = viewModel.title
+        updateNavigationTitleForCurrentOffset()
 
         for subview in contentStack.arrangedSubviews {
             contentStack.removeArrangedSubview(subview)
@@ -294,9 +310,9 @@ final class ArticleDetailViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        if let nav = navigationController?.navigationBar {
-            AppNavigationBarAppearance.apply(to: nav)
-        }
+        guard let nav = navigationController?.navigationBar else { return }
+        AppNavigationBarAppearance.apply(to: nav)
+        applyNavBarChrome(visible: false)
     }
 
     private func configureBackButton() {
@@ -325,5 +341,32 @@ final class ArticleDetailViewController: UIViewController {
     @objc
     private func backTapped() {
         navigationController?.popViewController(animated: true)
+    }
+
+    private func updateNavigationTitleForCurrentOffset() {
+        let showTitle = scrollView.contentOffset.y > 160
+        applyNavBarChrome(visible: showTitle)
+        navigationItem.title = showTitle ? navBarTitleText : nil
+    }
+
+    private func applyNavBarChrome(visible: Bool) {
+        guard let nav = navigationController?.navigationBar else { return }
+        guard hasVisibleNavBarChrome != visible else { return }
+        hasVisibleNavBarChrome = visible
+        if visible {
+            AppNavigationBarAppearance.apply(to: nav)
+        } else {
+            nav.standardAppearance = transparentNavBarAppearance
+            nav.scrollEdgeAppearance = transparentNavBarAppearance
+            nav.compactAppearance = transparentNavBarAppearance
+            nav.compactScrollEdgeAppearance = transparentNavBarAppearance
+            nav.tintColor = .appTextPrimary
+        }
+    }
+}
+
+extension ArticleDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateNavigationTitleForCurrentOffset()
     }
 }

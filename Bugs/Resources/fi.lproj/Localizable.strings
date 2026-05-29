@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Tunnista mikä tahansa vika välittömästi";
+"onboarding.v2.page2.title" = "Käyttäjän valinta";
+"onboarding.v2.page3.title" = "Opi kaikki hyönteisistä";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Olin järkyttynyt sen tarkkuudesta. Tunnisti virheen sekunneissa!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Erittäin hyödyllinen patikoitaessa. Nyt tiedän, mitä välttää";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Auttoi minua tunnistamaan mahdollisesti vaarallisen hyönteisen kotona";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Rehellisesti sanottuna säästin paljon aikaa. Googlaamisen sijaan otan vain kuvan ja saan vastauksen";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Yksityiskohdat ovat uskomattomia. Tuntuu kuin sinulla olisi taskubiologi.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Helppo ja hauska käyttää. Lapseni rakastavat sitä!";

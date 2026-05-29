@@ -13,16 +13,39 @@ enum OnboardingFloatingCTALayout {
     static let bottomOffsetFromSafeAreaBottom: CGFloat = 44
 }
 
-/// Два экрана на `UICollectionView`, листание только по кнопке на первом шаге; второй — пейвол.
+/// Три интро-экрана + пейволл, навигация только по кнопке.
 final class OnboardingViewController: UIViewController {
     private static let isOnboardingEndedKey = "isonbended"
+    private static let introPageCount = 3
+    private static let paywallPageIndex = 3
 
     private var currentPage = 0
     private var isRepeatOnboardingSession = false
     private var loggedOnboardingSteps = Set<Int>()
     private var didLogOnboardingPaywallShown = false
-    /// `scrollToItem` before layout is ready leaves `contentOffset` at 0 while `currentPage == 1` — wrong page + wrong chrome. Sync in `viewDidLayoutSubviews`.
-    private var needsScrollToPaywallAfterLayout = false
+    /// `scrollToItem` before layout is ready leaves `contentOffset` at 0 while `currentPage` уже изменён.
+    private var needsScrollToInitialPageAfterLayout = false
+    private var didSchedulePaywallPlayback = false
+
+    private struct IntroPageModel {
+        let title: String
+        let background: OnboardingFeaturePageCollectionViewCell.BackgroundKind
+    }
+
+    private let introPages: [IntroPageModel] = [
+        .init(
+            title: L10n.string("onboarding.v2.page1.title"),
+            background: .lottie(name: "onb1")
+        ),
+        .init(
+            title: L10n.string("onboarding.v2.page3.title"),
+            background: .lottie(name: "onb2")
+        ),
+        .init(
+            title: L10n.string("onboarding.v2.page2.title"),
+            background: .testimonials(imageAssetName: "people")
+        ),
+    ]
 
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         let l = UICollectionViewFlowLayout()
@@ -36,6 +59,7 @@ final class OnboardingViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.semanticContentAttribute = .forceLeftToRight
         cv.backgroundColor = .appBackground
         cv.isPagingEnabled = true
         cv.isScrollEnabled = false
@@ -44,15 +68,32 @@ final class OnboardingViewController: UIViewController {
         cv.bounces = false
         cv.dataSource = self
         cv.delegate = self
-        cv.register(OnboardingIntroPageCollectionViewCell.self, forCellWithReuseIdentifier: OnboardingIntroPageCollectionViewCell.reuseIdentifier)
+        cv.register(OnboardingFeaturePageCollectionViewCell.self, forCellWithReuseIdentifier: OnboardingFeaturePageCollectionViewCell.reuseIdentifier)
         cv.register(OnboardingPaywallCollectionViewCell.self, forCellWithReuseIdentifier: OnboardingPaywallCollectionViewCell.reuseIdentifier)
         return cv
+    }()
+
+    private let titleLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.font = .systemFont(ofSize: 24, weight: .bold)
+        l.textColor = .appTextPrimary
+        l.textAlignment = .center
+        l.numberOfLines = 0
+        l.lineBreakMode = .byWordWrapping
+        return l
     }()
 
     private let actionButton: GradientRoundedCTAControl = {
         let b = GradientRoundedCTAControl()
         b.translatesAutoresizingMaskIntoConstraints = false
         return b
+    }()
+
+    private let pageControlView: OnboardingCustomPageControlView = {
+        let v = OnboardingCustomPageControlView(numberOfPages: 3)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
     }()
 
     override func viewDidLoad() {
@@ -63,13 +104,19 @@ final class OnboardingViewController: UIViewController {
         actionButton.addTarget(self, action: #selector(actionTapped), for: .touchUpInside)
 
         view.addSubview(collectionView)
+        view.addSubview(titleLabel)
         view.addSubview(actionButton)
+        view.addSubview(pageControlView)
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            titleLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -20),
 
             actionButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 46),
             actionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -46),
@@ -78,13 +125,19 @@ final class OnboardingViewController: UIViewController {
                 constant: -OnboardingFloatingCTALayout.bottomOffsetFromSafeAreaBottom
             ),
             actionButton.heightAnchor.constraint(equalToConstant: OnboardingFloatingCTALayout.buttonHeight),
+
+            pageControlView.topAnchor.constraint(equalTo: actionButton.bottomAnchor, constant: 18),
+            pageControlView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageControlView.heightAnchor.constraint(equalToConstant: 8),
         ])
 
         view.bringSubviewToFront(actionButton)
+        view.bringSubviewToFront(titleLabel)
+        view.bringSubviewToFront(pageControlView)
         isRepeatOnboardingSession = Self.shouldStartAtPaywall()
         if isRepeatOnboardingSession {
-            currentPage = 1
-            needsScrollToPaywallAfterLayout = true
+            currentPage = Self.paywallPageIndex
+            needsScrollToInitialPageAfterLayout = true
             Self.markOnboardingEndedIfNeeded()
         }
         updateChromeForPage()
@@ -99,38 +152,56 @@ final class OnboardingViewController: UIViewController {
             flowLayout.itemSize = size
             flowLayout.invalidateLayout()
         }
-        if needsScrollToPaywallAfterLayout {
-            let indexPath = IndexPath(item: 1, section: 0)
+        if needsScrollToInitialPageAfterLayout {
+            let indexPath = IndexPath(item: currentPage, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
             collectionView.layoutIfNeeded()
-            collectionView.contentOffset = CGPoint(x: size.width, y: 0)
-            if abs(collectionView.contentOffset.x - size.width) < 2 {
-                needsScrollToPaywallAfterLayout = false
+            collectionView.contentOffset = CGPoint(x: size.width * CGFloat(currentPage), y: 0)
+            if abs(collectionView.contentOffset.x - (size.width * CGFloat(currentPage))) < 2 {
+                needsScrollToInitialPageAfterLayout = false
             }
             updateChromeForPage()
+            if currentPage == Self.paywallPageIndex {
+                schedulePaywallPlaybackIfNeeded()
+            }
         }
     }
 
     private func updateChromeForPage() {
+        let isPaywallPage = (currentPage == Self.paywallPageIndex)
         actionButton.isHidden = false
-        if currentPage == 0 {
-            actionButton.setTitle(L10n.string("onboarding.button.next"), for: .normal)
-        } else {
+        if isPaywallPage {
+            titleLabel.isHidden = true
+            pageControlView.isHidden = true
             actionButton.setTitle(L10n.string("paywall.button.next"), for: .normal)
+            actionButton.isPulseAnimationEnabled = true
             logOnboardingPaywallShownIfNeeded()
+        } else {
+            titleLabel.isHidden = false
+            pageControlView.isHidden = false
+            titleLabel.text = introPages[currentPage].title
+            actionButton.setTitle(L10n.string("onboarding.button.next"), for: .normal)
+            actionButton.isPulseAnimationEnabled = false
+            pageControlView.currentPage = currentPage
         }
-        actionButton.isPulseAnimationEnabled = (currentPage == 1)
     }
 
     @objc
     private func actionTapped() {
-        if currentPage == 0 {
-            currentPage = 1
-            let indexPath = IndexPath(item: 1, section: 0)
+        if currentPage < Self.introPageCount - 1 {
+            currentPage += 1
+            let indexPath = IndexPath(item: currentPage, section: 0)
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            updateChromeForPage()
+            logOnboardingStepIfNeeded(currentPage)
+        } else if currentPage == Self.introPageCount - 1 {
+            currentPage = Self.paywallPageIndex
+            let indexPath = IndexPath(item: currentPage, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             updateChromeForPage()
             logOnboardingStepIfNeeded(currentPage)
             Self.markOnboardingEndedIfNeeded()
+            schedulePaywallPlaybackIfNeeded()
         } else {
             Task { await performSubscriptionPurchase() }
         }
@@ -241,6 +312,10 @@ final class OnboardingViewController: UIViewController {
             EventsManager.shared.logEvent(.view_onboarding_1)
         case 1:
             EventsManager.shared.logEvent(.view_onboarding_2)
+        case 2:
+            EventsManager.shared.logEvent(.view_onboarding_3)
+        case Self.paywallPageIndex:
+            logOnboardingPaywallShownIfNeeded()
         default:
             break
         }
@@ -252,21 +327,41 @@ final class OnboardingViewController: UIViewController {
         let event: EventsManager.Event = isRepeatOnboardingSession ? .launch_paywall_view : .view_onboarding_subscription
         EventsManager.shared.logEvent(event)
     }
+
+    private func paywallCell() -> OnboardingPaywallCollectionViewCell? {
+        collectionView.cellForItem(
+            at: IndexPath(item: Self.paywallPageIndex, section: 0)
+        ) as? OnboardingPaywallCollectionViewCell
+    }
+
+    /// `play()` видео пейвола — через 0.1 с после Continue на экране перед пейволлом.
+    private func schedulePaywallPlaybackIfNeeded(after delay: TimeInterval = 0.1) {
+        guard currentPage == Self.paywallPageIndex else { return }
+        guard !didSchedulePaywallPlayback else { return }
+        if let cell = paywallCell() {
+            didSchedulePaywallPlayback = true
+            cell.schedulePaywallPlayback(after: delay)
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            self?.schedulePaywallPlaybackIfNeeded(after: delay)
+        }
+    }
 }
 
 extension OnboardingViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        2
+        Self.introPageCount + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.item == 0 {
+        if indexPath.item < Self.introPageCount {
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: OnboardingIntroPageCollectionViewCell.reuseIdentifier,
+                withReuseIdentifier: OnboardingFeaturePageCollectionViewCell.reuseIdentifier,
                 for: indexPath
-            ) as! OnboardingIntroPageCollectionViewCell
-            cell.configure()
+            ) as! OnboardingFeaturePageCollectionViewCell
+            cell.configure(background: introPages[indexPath.item].background)
             return cell
         }
         let cell = collectionView.dequeueReusableCell(
@@ -283,8 +378,11 @@ extension OnboardingViewController: UICollectionViewDataSource, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let intro = cell as? OnboardingIntroPageCollectionViewCell {
-            intro.playBenefitsRevealAnimation()
-        }
+        guard indexPath.item == 2 else { return }
+        let isTestimonialsCell = cell is OnboardingFeaturePageCollectionViewCell
+        NSLog(
+            "%@",
+            "[OnboardingAutoScroll] OnboardingVC willDisplay page=3 testimonialsCell=\(isTestimonialsCell) cvSize=\(collectionView.bounds.size)"
+        )
     }
 }

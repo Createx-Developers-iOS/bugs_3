@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Okamžite identifikujte akúkoľvek chybu";
+"onboarding.v2.page2.title" = "Voľba používateľa";
+"onboarding.v2.page3.title" = "Zistite všetko o hmyze";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Bol som šokovaný, aká je presná. Identifikovaná chyba v priebehu niekoľkých sekúnd!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Super užitočné pri turistike. Teraz už viem, čomu sa vyhnúť";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Pomohol mi identifikovať potenciálne nebezpečný hmyz doma";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Úprimne povedané, ušetrilo mi to veľa času. Namiesto googlenia si urobím fotku a dostanem odpoveď";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Detaily sú úžasné. Je to ako mať vreckového biológa.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Jednoduché a zábavné použitie. Moje deti to milujú!";

@@ -52,4 +52,25 @@ enum AppConfig {
                 && !appleAppID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
     }
+
+    enum Facebook {
+        static let appID = "1300599818848461"
+        static let clientToken = "1ff9fce191ce6457e71fe3af5bba6a97"
+        static let displayName = "Bug Identifier"
+
+        static var isConfigured: Bool {
+            !appID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                && !clientToken.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+
+        static var urlScheme: String { "fb\(appID)" }
+    }
+
+    enum AppMetrica {
+        static let apiKey = "0894b393-64d8-4636-b75c-7f467b5621ee"
+
+        static var isConfigured: Bool {
+            !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+    }
 }

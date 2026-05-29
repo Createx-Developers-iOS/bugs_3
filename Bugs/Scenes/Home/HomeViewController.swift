@@ -61,6 +61,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
 
     private let scrollContentView: UIView = {
         let v = UIView()
+        v.clipsToBounds = false
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -131,7 +132,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private let popularSectionTitleLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 16, weight: .semibold)
-        l.textColor = .appSectionTitle
+        l.textColor = .appTextPrimary
         l.numberOfLines = 1
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -161,6 +162,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private let articlesSectionContainer: UIView = {
         let v = UIView()
         v.backgroundColor = .clear
+        v.clipsToBounds = false
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -168,7 +170,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private let articlesSectionTitleLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 16, weight: .semibold)
-        l.textColor = .appSectionTitle
+        l.textColor = .appTextPrimary
         l.numberOfLines = 1
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -177,7 +179,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private lazy var articlesCollectionLayout: UICollectionViewFlowLayout = {
         let l = UICollectionViewFlowLayout()
         l.scrollDirection = .horizontal
-        l.itemSize = CGSize(width: 300, height: 139)
+        l.itemSize = HomeArticleCell.layoutItemSize
         l.minimumLineSpacing = 12
         l.minimumInteritemSpacing = 12
         l.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
@@ -187,6 +189,8 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private lazy var articlesCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: articlesCollectionLayout)
         cv.backgroundColor = .clear
+        cv.clipsToBounds = false
+        cv.layer.masksToBounds = false
         cv.showsHorizontalScrollIndicator = false
         cv.dataSource = self
         cv.delegate = self
@@ -237,6 +241,25 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         if w > 0, abs(w - aiBannerTitleLabel.preferredMaxLayoutWidth) > 0.5 {
             aiBannerTitleLabel.preferredMaxLayoutWidth = w
         }
+        allowArticleCellShadowsToExtend(in: articlesCollectionView)
+    }
+
+    /// Внутренний scroll view UICollectionView по умолчанию режет тени ячеек.
+    private func allowArticleCellShadowsToExtend(in collectionView: UICollectionView) {
+        collectionView.clipsToBounds = false
+        collectionView.layer.masksToBounds = false
+        for subview in collectionView.subviews {
+            subview.clipsToBounds = false
+            if let scrollView = subview as? UIScrollView {
+                scrollView.clipsToBounds = false
+            }
+        }
+    }
+
+    private func refreshVisibleArticleCellShadows() {
+        for case let cell as HomeArticleCell in articlesCollectionView.visibleCells {
+            cell.refreshShadow()
+        }
     }
 
     private func configureHomeSearchField() {
@@ -259,7 +282,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
 
     @objc
     private func aiAskTapped() {
-        navigationController?.pushViewController(AIConsultantChatViewController(), animated: true)
+        topPresenterForModal.presentAIConsultantChatFullScreen()
     }
 
     private func updatePremiumNavBarChrome() {
@@ -369,7 +392,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
             articlesSectionContainer.topAnchor.constraint(equalTo: popularSectionContainer.bottomAnchor, constant: 20),
             articlesSectionContainer.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
             articlesSectionContainer.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
-            articlesSectionContainer.heightAnchor.constraint(equalToConstant: 170),
+            articlesSectionContainer.heightAnchor.constraint(equalToConstant: 200),
             articlesSectionContainer.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor, constant: -24),
 
             popularSectionTitleLabel.topAnchor.constraint(equalTo: popularSectionContainer.topAnchor, constant: 6),
@@ -390,7 +413,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
             articlesCollectionView.topAnchor.constraint(equalTo: articlesSectionContainer.topAnchor, constant: 31),
             articlesCollectionView.leadingAnchor.constraint(equalTo: articlesSectionContainer.leadingAnchor),
             articlesCollectionView.trailingAnchor.constraint(equalTo: articlesSectionContainer.trailingAnchor),
-            articlesCollectionView.bottomAnchor.constraint(equalTo: articlesSectionContainer.bottomAnchor),
+            articlesCollectionView.bottomAnchor.constraint(equalTo: articlesSectionContainer.bottomAnchor, constant: -4),
 
             articlesSectionTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: articlesCollectionView.topAnchor, constant: -4),
 
@@ -445,6 +468,8 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         categoriesCollectionView.reloadData()
         popularCollectionView.reloadData()
         articlesCollectionView.reloadData()
+        articlesCollectionView.layoutIfNeeded()
+        refreshVisibleArticleCellShadows()
     }
 
     func displayGenericRequestError() {
@@ -506,6 +531,17 @@ extension HomeViewController: UIGestureRecognizerDelegate {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        guard collectionView === articlesCollectionView,
+              let articleCell = cell as? HomeArticleCell else { return }
+        articleCell.layer.zPosition = CGFloat(indexPath.item + 1)
+        articleCell.refreshShadow()
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView === articlesCollectionView {

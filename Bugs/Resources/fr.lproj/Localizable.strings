@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Identifiez tout bug instantanément";
+"onboarding.v2.page2.title" = "Choix utilisateur";
+"onboarding.v2.page3.title" = "Tout savoir sur les insectes";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "J'ai été choqué de voir à quel point c'était précis. Un bug a été identifié en quelques secondes !";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Super utile lors de la randonnée. Maintenant, je sais ce qu'il faut éviter";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "M'a aidé à identifier un insecte potentiellement dangereux à la maison";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Honnêtement, ça m'a fait gagner beaucoup de temps. Au lieu de chercher sur Google, je prends juste une photo et j'obtiens la réponse";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Les détails sont incroyables. J'ai l'impression d'avoir un biologiste de poche.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Simple et amusant à utiliser. Mes enfants adorent ça !";

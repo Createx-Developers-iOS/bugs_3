@@ -295,3 +295,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Мгновенно определяйте любых жуков";
+"onboarding.v2.page2.title" = "Выбор пользователя";
+"onboarding.v2.page3.title" = "Узнайте все о насекомых";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Я был шокирован, насколько он точен. Определил жука за считанные секунды!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Очень полезно во время походов. Теперь я знаю, чего следует избегать";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Помогли выявить потенциально опасное насекомое в домашних условиях";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Честно говоря, сэкономил мне много времени. Вместо того, чтобы гуглить, я просто делаю фото и получаю ответ";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Детали потрясающие. Такое ощущение, что у вас есть карманный биолог.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Простой и увлекательный в использовании. Моим детям это нравится!";

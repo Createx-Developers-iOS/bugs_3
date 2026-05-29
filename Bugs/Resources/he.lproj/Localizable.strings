@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "זיהוי מיידי של כל באג";
+"onboarding.v2.page2.title" = "בחירת משתמש";
+"onboarding.v2.page3.title" = "מידע נוסף על חרקים";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "הופתעתי עד כמה זה מדויק. זיהינו באג בשניות!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "מועיל מאוד בטיול רגלי. עכשיו אני יודע ממה להימנע";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "עזר לי לזהות חרק שעלול להיות מסוכן בבית";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "בכנות, חסכת לי הרבה זמן. במקום לחפש בגוגל, אני פשוט מצלם ומקבל את התשובה";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "הפרטים מדהימים. מרגיש כאילו יש לך ביולוג כיס.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "פשוט ומהנה לשימוש. הילדים שלי מתים על זה!";

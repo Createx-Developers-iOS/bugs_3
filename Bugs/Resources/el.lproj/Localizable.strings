@@ -297,3 +297,20 @@
 "settings.link.terms" = "https://bugs.app/terms";
 "settings.link.app_store" = "https://apps.apple.com";
 "settings.link.share" = "https://apps.apple.com";
+
+/* Onboarding v2 */
+"onboarding.v2.page1.title" = "Εντοπίστε αμέσως οποιοδήποτε σφάλμα";
+"onboarding.v2.page2.title" = "επιλογή χρήστη";
+"onboarding.v2.page3.title" = "Μάθετε τα πάντα για τα έντομα";
+"onboarding.v2.review.michael.name" = "Michael Turner";
+"onboarding.v2.review.michael.text" = "Σοκαρίστηκα πόσο ακριβές είναι. Εντοπίσατε ένα σφάλμα σε δευτερόλεπτα!";
+"onboarding.v2.review.jessica.name" = "Jessica Miller";
+"onboarding.v2.review.jessica.text" = "Πολύ χρήσιμο όταν κάνετε πεζοπορία. Τώρα ξέρω τι να αποφύγω";
+"onboarding.v2.review.ryan.name" = "Ryan Cooper";
+"onboarding.v2.review.ryan.text" = "Με βοήθησε να αναγνωρίσω ένα δυνητικά επικίνδυνο έντομο στο σπίτι";
+"onboarding.v2.review.olivia.name" = "Olivia Carter";
+"onboarding.v2.review.olivia.text" = "Ειλικρινά, γλίτωσα πολύ χρόνο. Αντί να ψάξω στο Google, απλά τραβάω μια φωτογραφία και παίρνω την απάντηση";
+"onboarding.v2.review.daniel.name" = "Daniel Brooks";
+"onboarding.v2.review.daniel.text" = "Οι λεπτομέρειες είναι εκπληκτικές. Είναι σαν να έχεις βιολόγο τσέπης.";
+"onboarding.v2.review.amanda.name" = "Amanda Collins";
+"onboarding.v2.review.amanda.text" = "Απλό και διασκεδαστικό στη χρήση. Τα παιδιά μου το λατρεύουν!";
