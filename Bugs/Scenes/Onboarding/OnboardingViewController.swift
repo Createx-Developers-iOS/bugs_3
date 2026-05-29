@@ -25,6 +25,7 @@ final class OnboardingViewController: UIViewController {
     private var didLogOnboardingPaywallShown = false
     /// `scrollToItem` before layout is ready leaves `contentOffset` at 0 while `currentPage` уже изменён.
     private var needsScrollToInitialPageAfterLayout = false
+    private var didSchedulePaywallPlayback = false
 
     private struct IntroPageModel {
         let title: String
@@ -160,6 +161,9 @@ final class OnboardingViewController: UIViewController {
                 needsScrollToInitialPageAfterLayout = false
             }
             updateChromeForPage()
+            if currentPage == Self.paywallPageIndex {
+                schedulePaywallPlaybackIfNeeded()
+            }
         }
     }
 
@@ -197,6 +201,7 @@ final class OnboardingViewController: UIViewController {
             updateChromeForPage()
             logOnboardingStepIfNeeded(currentPage)
             Self.markOnboardingEndedIfNeeded()
+            schedulePaywallPlaybackIfNeeded()
         } else {
             Task { await performSubscriptionPurchase() }
         }
@@ -321,6 +326,26 @@ final class OnboardingViewController: UIViewController {
         didLogOnboardingPaywallShown = true
         let event: EventsManager.Event = isRepeatOnboardingSession ? .launch_paywall_view : .view_onboarding_subscription
         EventsManager.shared.logEvent(event)
+    }
+
+    private func paywallCell() -> OnboardingPaywallCollectionViewCell? {
+        collectionView.cellForItem(
+            at: IndexPath(item: Self.paywallPageIndex, section: 0)
+        ) as? OnboardingPaywallCollectionViewCell
+    }
+
+    /// `play()` видео пейвола — через 0.1 с после Continue на экране перед пейволлом.
+    private func schedulePaywallPlaybackIfNeeded(after delay: TimeInterval = 0.1) {
+        guard currentPage == Self.paywallPageIndex else { return }
+        guard !didSchedulePaywallPlayback else { return }
+        if let cell = paywallCell() {
+            didSchedulePaywallPlayback = true
+            cell.schedulePaywallPlayback(after: delay)
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            self?.schedulePaywallPlaybackIfNeeded(after: delay)
+        }
     }
 }
 

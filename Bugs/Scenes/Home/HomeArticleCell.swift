@@ -9,10 +9,35 @@ final class HomeArticleCell: UICollectionViewCell {
 
     static let reuseIdentifier = "HomeArticleCell"
 
-    private let cardView: UIView = {
+    /// Отступы внутри ячейки, чтобы тень помещалась в bounds и не резалась UICollectionView.
+    static let shadowPadding = UIEdgeInsets(top: 4, left: 8, bottom: 18, right: 8)
+    static let cardContentHeight: CGFloat = 139
+    static var layoutItemSize: CGSize {
+        CGSize(
+            width: 300 + shadowPadding.left + shadowPadding.right,
+            height: cardContentHeight + shadowPadding.top + shadowPadding.bottom
+        )
+    }
+
+    private enum Style {
+        static let cardCornerRadius: CGFloat = 28
+    }
+
+    /// Белая карточка с тенью; `clipsToBounds = false`, иначе тень не рисуется.
+    private let shadowCard: UIView = {
         let v = UIView()
         v.backgroundColor = .white
-        v.layer.cornerRadius = 28
+        v.layer.cornerRadius = Style.cardCornerRadius
+        v.clipsToBounds = false
+        v.layer.masksToBounds = false
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
+    private let contentClipView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.layer.cornerRadius = Style.cardCornerRadius
         v.clipsToBounds = true
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -22,7 +47,7 @@ final class HomeArticleCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.layer.cornerRadius = 28
+        iv.layer.cornerRadius = Style.cardCornerRadius
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -58,37 +83,88 @@ final class HomeArticleCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(cardView)
-        cardView.addSubview(coverImageView)
-        cardView.addSubview(textStack)
+        clipsToBounds = false
+        contentView.clipsToBounds = false
+        layer.masksToBounds = false
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
 
+        contentView.addSubview(shadowCard)
+        shadowCard.addSubview(contentClipView)
+        contentClipView.addSubview(coverImageView)
+        contentClipView.addSubview(textStack)
+
+        let pad = Self.shadowPadding
         let imageSide: CGFloat = 115
 
-        let textCenterY = textStack.centerYAnchor.constraint(equalTo: cardView.centerYAnchor)
+        let textCenterY = textStack.centerYAnchor.constraint(equalTo: contentClipView.centerYAnchor)
         textCenterY.priority = .defaultHigh
 
         NSLayoutConstraint.activate([
-            cardView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            shadowCard.topAnchor.constraint(equalTo: contentView.topAnchor, constant: pad.top),
+            shadowCard.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: pad.left),
+            shadowCard.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -pad.right),
+            shadowCard.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -pad.bottom),
+            shadowCard.heightAnchor.constraint(equalToConstant: Self.cardContentHeight),
 
-            coverImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12),
-            coverImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
-            coverImageView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -12),
+            contentClipView.topAnchor.constraint(equalTo: shadowCard.topAnchor),
+            contentClipView.leadingAnchor.constraint(equalTo: shadowCard.leadingAnchor),
+            contentClipView.trailingAnchor.constraint(equalTo: shadowCard.trailingAnchor),
+            contentClipView.bottomAnchor.constraint(equalTo: shadowCard.bottomAnchor),
+
+            coverImageView.leadingAnchor.constraint(equalTo: contentClipView.leadingAnchor, constant: 12),
+            coverImageView.topAnchor.constraint(equalTo: contentClipView.topAnchor, constant: 12),
+            coverImageView.bottomAnchor.constraint(equalTo: contentClipView.bottomAnchor, constant: -12),
             coverImageView.widthAnchor.constraint(equalToConstant: imageSide),
             coverImageView.heightAnchor.constraint(equalToConstant: imageSide),
 
             textStack.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
-            textStack.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            textStack.trailingAnchor.constraint(equalTo: contentClipView.trailingAnchor, constant: -16),
             textCenterY,
-            textStack.topAnchor.constraint(greaterThanOrEqualTo: cardView.topAnchor, constant: 12),
-            textStack.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -12),
+            textStack.topAnchor.constraint(greaterThanOrEqualTo: contentClipView.topAnchor, constant: 12),
+            textStack.bottomAnchor.constraint(lessThanOrEqualTo: contentClipView.bottomAnchor, constant: -12),
         ])
+
     }
 
     required init?(coder: NSCoder) {
         nil
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        guard window != nil else { return }
+        refreshShadow()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        refreshShadow()
+    }
+
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        layer.zPosition = CGFloat(layoutAttributes.indexPath.item + 1)
+    }
+
+    /// Пересчитать тень после layout (иначе `shadowPath` с нулевым bounds — тени нет).
+    func refreshShadow() {
+        let layer = shadowCard.layer
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.08
+        layer.shadowRadius = 8
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.masksToBounds = false
+
+        let bounds = shadowCard.bounds
+        guard bounds.width > 1, bounds.height > 1 else {
+            layer.shadowPath = nil
+            return
+        }
+        layer.shadowPath = UIBezierPath(
+            roundedRect: bounds,
+            cornerRadius: Style.cardCornerRadius
+        ).cgPath
     }
 
     func configure(with viewModel: Home.ArticleCellViewModel) {
@@ -99,6 +175,7 @@ final class HomeArticleCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        shadowCard.layer.shadowPath = nil
         RemoteImageLoader.cancelLoad(for: coverImageView)
         titleLabel.text = nil
         subtitleLabel.text = nil

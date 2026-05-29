@@ -5,7 +5,7 @@
 
 import UIKit
 
-/// Два равных сегмента: белый фон, выбранный #3AA176, внутренние отступы 2 pt.
+/// Два равных сегмента: белый фон, выбранный #3AA176 с тенью.
 final class ProfileSegmentedControl: UIControl {
 
     var selectedIndex: Int = 0 {
@@ -16,6 +16,16 @@ final class ProfileSegmentedControl: UIControl {
         }
     }
 
+    private let trackView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.layer.cornerRadius = 22
+        v.clipsToBounds = false
+        v.layer.masksToBounds = false
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
     private let stack: UIStackView = {
         let s = UIStackView()
         s.axis = .horizontal
@@ -24,38 +34,44 @@ final class ProfileSegmentedControl: UIControl {
         s.alignment = .fill
         s.isLayoutMarginsRelativeArrangement = true
         s.layoutMargins = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        s.clipsToBounds = false
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
 
-    private let leftButton = UIButton(type: .custom)
-    private let rightButton = UIButton(type: .custom)
+    private let leftTab = SegmentTab()
+    private let rightTab = SegmentTab()
 
-    /// Фон выбранного сегмента (#3AA176).
     private static let selectedFill = UIColor(red: 58 / 255, green: 161 / 255, blue: 118 / 255, alpha: 1)
 
     init(leftTitle: String, rightTitle: String) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        clipsToBounds = false
+        layer.masksToBounds = false
         isAccessibilityElement = false
-        backgroundColor = .white
-        layer.cornerRadius = 22
-        layer.masksToBounds = true
+        backgroundColor = .clear
 
-        configureButton(leftButton, title: leftTitle)
-        configureButton(rightButton, title: rightTitle)
-        leftButton.addTarget(self, action: #selector(leftTapped), for: .touchUpInside)
-        rightButton.addTarget(self, action: #selector(rightTapped), for: .touchUpInside)
+        leftTab.button.setTitle(leftTitle, for: .normal)
+        rightTab.button.setTitle(rightTitle, for: .normal)
+        leftTab.button.addTarget(self, action: #selector(leftTapped), for: .touchUpInside)
+        rightTab.button.addTarget(self, action: #selector(rightTapped), for: .touchUpInside)
 
-        addSubview(stack)
-        stack.addArrangedSubview(leftButton)
-        stack.addArrangedSubview(rightButton)
+        addSubview(trackView)
+        trackView.addSubview(stack)
+        stack.addArrangedSubview(leftTab)
+        stack.addArrangedSubview(rightTab)
 
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: topAnchor),
-            stack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stack.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            trackView.topAnchor.constraint(equalTo: topAnchor),
+            trackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            trackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            trackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            stack.topAnchor.constraint(equalTo: trackView.topAnchor),
+            stack.leadingAnchor.constraint(equalTo: trackView.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: trackView.trailingAnchor),
+            stack.bottomAnchor.constraint(equalTo: trackView.bottomAnchor),
         ])
 
         updateVisuals()
@@ -63,16 +79,6 @@ final class ProfileSegmentedControl: UIControl {
 
     required init?(coder: NSCoder) {
         nil
-    }
-
-    private func configureButton(_ b: UIButton, title: String) {
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.setTitle(title, for: .normal)
-        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        b.titleLabel?.adjustsFontForContentSizeCategory = true
-        b.titleLabel?.lineBreakMode = .byTruncatingTail
-        b.layer.cornerRadius = 20
-        b.clipsToBounds = false
     }
 
     @objc
@@ -86,33 +92,127 @@ final class ProfileSegmentedControl: UIControl {
     }
 
     private func updateVisuals() {
-        let green = Self.selectedFill
-        leftButton.backgroundColor = selectedIndex == 0 ? green : .white
-        rightButton.backgroundColor = selectedIndex == 1 ? green : .white
-        leftButton.setTitleColor(selectedIndex == 0 ? .white : .black, for: .normal)
-        rightButton.setTitleColor(selectedIndex == 1 ? .white : .black, for: .normal)
-        applySelectionShadow(for: leftButton, isSelected: selectedIndex == 0)
-        applySelectionShadow(for: rightButton, isSelected: selectedIndex == 1)
-    }
-
-    private func applySelectionShadow(for button: UIButton, isSelected: Bool) {
-        guard isSelected else {
-            button.layer.shadowOpacity = 0
-            return
+        let leftSelected = selectedIndex == 0
+        leftTab.setSelected(leftSelected, fillColor: Self.selectedFill)
+        rightTab.setSelected(!leftSelected, fillColor: Self.selectedFill)
+        // Выбранный таб поверх соседа — иначе тень перекрывается непрозрачным фоном соседнего таба.
+        leftTab.layer.zPosition = leftSelected ? 2 : 0
+        rightTab.layer.zPosition = leftSelected ? 0 : 2
+        if leftSelected {
+            stack.bringSubviewToFront(leftTab)
+        } else {
+            stack.bringSubviewToFront(rightTab)
         }
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.12
-        button.layer.shadowRadius = 8
-        button.layer.shadowOffset = CGSize(width: 0, height: 3)
-        button.layer.shadowPath = UIBezierPath(
-            roundedRect: button.bounds,
-            cornerRadius: button.layer.cornerRadius
-        ).cgPath
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        applySelectionShadow(for: leftButton, isSelected: selectedIndex == 0)
-        applySelectionShadow(for: rightButton, isSelected: selectedIndex == 1)
+        refreshSelectionShadows()
+    }
+
+    /// Вызвать после layout — иначе у первого выбранного таба `shadowPath` с нулевым frame.
+    func refreshSelectionShadows() {
+        layoutIfNeeded()
+        leftTab.refreshShadow()
+        rightTab.refreshShadow()
+    }
+}
+
+// MARK: - Segment tab
+
+private final class SegmentTab: UIView {
+
+    let selectionSurface: UIView = {
+        let v = UIView()
+        v.clipsToBounds = false
+        v.layer.masksToBounds = false
+        v.layer.cornerRadius = 20
+        v.isHidden = true
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
+    let button: UIButton = {
+        let b = UIButton(type: .custom)
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        b.titleLabel?.adjustsFontForContentSizeCategory = true
+        b.titleLabel?.lineBreakMode = .byTruncatingTail
+        b.backgroundColor = .clear
+        b.isOpaque = false
+        b.layer.cornerRadius = 20
+        return b
+    }()
+
+    private static let shadowInsets = UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        clipsToBounds = false
+        layer.masksToBounds = false
+        backgroundColor = .clear
+        isOpaque = false
+
+        addSubview(selectionSurface)
+        addSubview(button)
+
+        let inset = Self.shadowInsets
+        NSLayoutConstraint.activate([
+            selectionSurface.topAnchor.constraint(equalTo: topAnchor),
+            selectionSurface.leadingAnchor.constraint(equalTo: leadingAnchor),
+            selectionSurface.trailingAnchor.constraint(equalTo: trailingAnchor),
+            selectionSurface.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset.bottom),
+
+            button.topAnchor.constraint(equalTo: topAnchor),
+            button.leadingAnchor.constraint(equalTo: leadingAnchor),
+            button.trailingAnchor.constraint(equalTo: trailingAnchor),
+            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset.bottom),
+        ])
+
+        applyShadowStyle()
+    }
+
+    required init?(coder: NSCoder) {
+        nil
+    }
+
+    func setSelected(_ selected: Bool, fillColor: UIColor) {
+        selectionSurface.isHidden = !selected
+        selectionSurface.backgroundColor = fillColor
+        button.backgroundColor = .clear
+        button.setTitleColor(selected ? .white : .black, for: .normal)
+        if selected {
+            applyShadowStyle()
+        } else {
+            selectionSurface.layer.shadowOpacity = 0
+            selectionSurface.layer.shadowPath = nil
+        }
+    }
+
+    func refreshShadow() {
+        guard !selectionSurface.isHidden else {
+            selectionSurface.layer.shadowOpacity = 0
+            selectionSurface.layer.shadowPath = nil
+            return
+        }
+        applyShadowStyle()
+        layoutIfNeeded()
+        let bounds = selectionSurface.bounds
+        guard bounds.width > 1, bounds.height > 1 else {
+            selectionSurface.layer.shadowPath = nil
+            return
+        }
+        selectionSurface.layer.shadowPath = UIBezierPath(
+            roundedRect: bounds,
+            cornerRadius: selectionSurface.layer.cornerRadius
+        ).cgPath
+    }
+
+    private func applyShadowStyle() {
+        let layer = selectionSurface.layer
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.28
+        layer.shadowRadius = 12
+        layer.shadowOffset = CGSize(width: 0, height: 4)
     }
 }

@@ -31,6 +31,15 @@ final class OnboardingPaywallCollectionViewCell: UICollectionViewCell {
         nil
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        paywallView.cancelScheduledOnboardingPaywallPlayback()
+    }
+
+    func schedulePaywallPlayback(after delay: TimeInterval = 0.1) {
+        paywallView.scheduleOnboardingPaywallPlayback(after: delay)
+    }
+
     func configure(
         onClose: @escaping () -> Void,
         onTerms: @escaping () -> Void,

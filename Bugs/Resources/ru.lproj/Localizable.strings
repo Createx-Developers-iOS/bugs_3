@@ -297,11 +297,11 @@
 "settings.link.share" = "https://apps.apple.com";
 
 /* Onboarding v2 */
-"onboarding.v2.page1.title" = "Мгновенно выявляйте любые ошибки";
+"onboarding.v2.page1.title" = "Мгновенно определяйте любых жуков";
 "onboarding.v2.page2.title" = "Выбор пользователя";
 "onboarding.v2.page3.title" = "Узнайте все о насекомых";
 "onboarding.v2.review.michael.name" = "Michael Turner";
-"onboarding.v2.review.michael.text" = "Я был шокирован, насколько он точен. Выявил ошибку за считанные секунды!";
+"onboarding.v2.review.michael.text" = "Я был шокирован, насколько он точен. Определил жука за считанные секунды!";
 "onboarding.v2.review.jessica.name" = "Jessica Miller";
 "onboarding.v2.review.jessica.text" = "Очень полезно во время походов. Теперь я знаю, чего следует избегать";
 "onboarding.v2.review.ryan.name" = "Ryan Cooper";

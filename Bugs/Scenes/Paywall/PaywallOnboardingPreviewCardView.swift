@@ -115,6 +115,12 @@ final class PaywallOnboardingPreviewCardView: UIView {
         }
     }
 
+    func resetPresentation() {
+        stopPulseAnimation()
+        alpha = 0
+        transform = CGAffineTransform(scaleX: 0.985, y: 0.985)
+    }
+
     func animateInIfNeeded() {
         guard alpha < 0.01 else { return }
         transform = CGAffineTransform(scaleX: 0.985, y: 0.985)

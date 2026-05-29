@@ -28,6 +28,8 @@ final class PaywallScreenView: UIView {
     private var videoPlaybackFinished = false
     private var didKickoffPriceLoad = false
     private var didRevealPaywallPreviewCard = false
+    private var onboardingPlaybackWorkItem: DispatchWorkItem?
+    private var didStartOnboardingPaywallPlayback = false
 
     private let previewCard = PaywallOnboardingPreviewCardView()
 
@@ -229,6 +231,7 @@ final class PaywallScreenView: UIView {
     }
 
     deinit {
+        onboardingPlaybackWorkItem?.cancel()
         if let endObserver {
             NotificationCenter.default.removeObserver(endObserver)
         }
@@ -246,9 +249,9 @@ final class PaywallScreenView: UIView {
         guard window != nil else { return }
         applyManualOnboardingSafeAreaInsets()
         if player == nil {
-            setupVideo()
+            setupVideo(autoPlay: !embeddedInOnboarding)
         }
-        if Self.paywallVideoURL() == nil {
+        if Self.paywallVideoURL() == nil, !embeddedInOnboarding {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
                 self?.revealPaywallPreviewCardIfNeeded()
             }
@@ -404,7 +407,7 @@ final class PaywallScreenView: UIView {
         }
     }
 
-    private func setupVideo() {
+    private func setupVideo(autoPlay: Bool = true) {
         guard let url = Self.paywallVideoURL() else { return }
         let item = AVPlayerItem(url: url)
         let p = AVPlayer(playerItem: item)
@@ -445,6 +448,8 @@ final class PaywallScreenView: UIView {
             guard let self, let p, let item else { return }
             if self.videoPlaybackFinished {
                 Self.seekToApproxLastFrame(player: p, item: item)
+            } else if self.embeddedInOnboarding, !self.didStartOnboardingPaywallPlayback {
+                p.pause()
             } else {
                 p.play()
             }
@@ -457,7 +462,11 @@ final class PaywallScreenView: UIView {
             p?.pause()
         }
 
-        p.play()
+        if autoPlay {
+            p.play()
+        } else {
+            p.pause()
+        }
     }
 
     /// Hold last decoded frame (no loop). Slightly before `duration` for reliable decoding.
@@ -479,6 +488,36 @@ final class PaywallScreenView: UIView {
         guard !didRevealPaywallPreviewCard else { return }
         didRevealPaywallPreviewCard = true
         previewCard.animateInIfNeeded()
+    }
+
+    /// В онбординге плеер инициализируется в `didMoveToWindow`, `play()` — по кнопке Continue.
+    func scheduleOnboardingPaywallPlayback(after delay: TimeInterval = 0.1) {
+        guard embeddedInOnboarding else { return }
+        onboardingPlaybackWorkItem?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            self?.playOnboardingPaywallVideoIfNeeded()
+        }
+        onboardingPlaybackWorkItem = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+    }
+
+    func cancelScheduledOnboardingPaywallPlayback() {
+        onboardingPlaybackWorkItem?.cancel()
+        onboardingPlaybackWorkItem = nil
+    }
+
+    private func playOnboardingPaywallVideoIfNeeded() {
+        guard embeddedInOnboarding else { return }
+        didStartOnboardingPaywallPlayback = true
+        if player == nil {
+            setupVideo(autoPlay: true)
+            return
+        }
+        if Self.paywallVideoURL() == nil {
+            revealPaywallPreviewCardIfNeeded()
+        } else {
+            player?.play()
+        }
     }
 
     private static func paywallVideoURL() -> URL? {
